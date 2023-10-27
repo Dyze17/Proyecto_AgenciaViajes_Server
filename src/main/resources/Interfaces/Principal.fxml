@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controladores.PrincipalController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #497378;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
+   <children>
+      <Pane prefHeight="400.0" prefWidth="178.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #497378;">
+         <children>
+            <Button layoutX="3.0" layoutY="100.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #527F85; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Button" />
+            <Button layoutX="3.0" layoutY="152.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
+            <Button layoutX="3.0" layoutY="204.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
+            <Button layoutX="3.0" layoutY="256.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
+            <Button layoutX="3.0" layoutY="308.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
+            <Label layoutX="46.0" layoutY="22.0" prefHeight="18.0" prefWidth="106.0" text="AGENCIA" textFill="WHITE">
+               <font>
+                  <Font name="Bookman Old Style Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="89.0" layoutY="40.0" prefHeight="17.0" prefWidth="43.0" text="UQ" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font name="Bookshelf Symbol 7" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="178.0" layoutY="32.0" prefHeight="52.0" prefWidth="421.0" style="-fx-background-color: #FFFFFF;" />
+   </children>
 </AnchorPane>
