@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="317.0" prefWidth="421.0" style="-fx-background-color: #497378;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarPerfilController">
+    <children>
+        <Label layoutX="148.0" layoutY="14.0" text="Modificar perfil" textFill="WHITE">
+            <font>
+                <Font name="Bookman Old Style" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="7.0" layoutY="61.0" text="Nombre" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font></Label>
+        <Label layoutX="7.0" layoutY="101.0" text="Apellido" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font></Label>
+        <Label layoutX="7.0" layoutY="141.0" text="Email" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font></Label>
+        <Label layoutX="7.0" layoutY="181.0" text="Telefono">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font></Label>
+        <Label layoutX="7.0" layoutY="221.0" text="Direccion">
+            <font>
+                <Font name="Bookman Old Style" size="15.0" />
+            </font></Label>
+      <TextField layoutX="103.0" layoutY="55.0" />
+      <TextField layoutX="103.0" layoutY="95.0" />
+      <TextField layoutX="103.0" layoutY="174.0" />
+      <TextField layoutX="103.0" layoutY="134.0" />
+      <TextField layoutX="103.0" layoutY="215.0" />
+      <Separator layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="400.0" />
+      <Button fx:id="btnActualizar" layoutX="148.0" layoutY="260.0" mnemonicParsing="false" onAction="#ShowActualizar" text="Actualizar">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font></Button>
+
+
+    </children>
+</AnchorPane>
