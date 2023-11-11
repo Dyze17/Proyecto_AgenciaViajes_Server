@@ -1,4 +1,4 @@
-package Exeptions;
+package Exceptions;
 
 public class ContraseñaIncorrectaException extends Exception{
     public ContraseñaIncorrectaException() {
