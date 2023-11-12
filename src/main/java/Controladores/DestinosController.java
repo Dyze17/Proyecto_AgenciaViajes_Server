@@ -1,8 +1,8 @@
 package Controladores;
 
 import Exceptions.AtributoVacioException;
+import Modelo.AgenciaUQ;
 import Modelo.Destino;
-import Modelo.ViajesUQ;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -25,7 +25,7 @@ public class DestinosController implements Initializable {
     public TextField paisField;
     public TextField ciudadField;
     public TextArea descripcionArea;
-    private final ViajesUQ viajesUQ = ViajesUQ.getInstance();
+    private final AgenciaUQ agenciaUQ = AgenciaUQ.getInstance();
     private final PrincipalController principalController = PrincipalController.getInstance();
     public Button añadirBoton;
     public TableView<Destino> tablaDestinos = new TableView<>();
@@ -41,11 +41,11 @@ public class DestinosController implements Initializable {
         paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
         ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
 
-        for(Destino destino : viajesUQ.getDestinos()) {
+        for(Destino destino : agenciaUQ.getDestinos()) {
             System.out.println(destino.getPais());
             System.out.println(destino.getCiudad());
         }
-        tablaDestinos.setItems(FXCollections.observableArrayList(viajesUQ.getDestinos()));
+        tablaDestinos.setItems(FXCollections.observableArrayList(agenciaUQ.getDestinos()));
     }
 
     public void mostrarAñadirDestino() {
@@ -59,7 +59,7 @@ public class DestinosController implements Initializable {
 
     public void agregarDestino() {
         try{
-            Destino destino = viajesUQ.agregarDestino(
+            Destino destino = agenciaUQ.agregarDestino(
                     paisField.getText(),
                     ciudadField.getText(),
                     climaBox.getValue(),
