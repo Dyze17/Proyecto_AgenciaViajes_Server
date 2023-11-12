@@ -3,13 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="398.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.DestinosController">
-   <children>
-      <TableView layoutX="4.0" layoutY="119.0" prefHeight="277.0" prefWidth="410.0">
-        <columns>
-          <TableColumn prefWidth="209.0" resizable="false" text="Pais" />
-          <TableColumn prefWidth="209.0" resizable="false" text="Ciudad" />
-        </columns>
-      </TableView>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="398.0" prefWidth="418.0"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controladores.DestinosController">
+   <Button fx:id="añadirBoton" onAction="#mostrarAñadirDestino" layoutX="79.0" layoutY="136.0" mnemonicParsing="false" text="Añadir"/>
+   <Button fx:id="actualizarBoton" onAction="#mostrarActualizarDestino" layoutX="290.0" layoutY="136.0" mnemonicParsing="false" text="Actualizar"/>
+   <Button layoutX="79.0" layoutY="219.0" mnemonicParsing="false" text="Eliminar"/>
+   <Button layoutX="290.0" layoutY="219.0" mnemonicParsing="false" text="Listar"/>
 </AnchorPane>
