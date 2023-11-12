@@ -28,38 +28,24 @@ public class DestinosController implements Initializable {
     private final ViajesUQ viajesUQ = ViajesUQ.getInstance();
     private final PrincipalController principalController = PrincipalController.getInstance();
     public Button añadirBoton;
-    public TableView<Destino> tablaDestinos;
-    public TableColumn<Destino, String> paisColumna;
-    public TableColumn<Destino, String> ciudadColumna;
+    public TableView<Destino> tablaDestinos = new TableView<>();
+    public TableColumn<Destino, String> paisColumna = new TableColumn<>();
+    public TableColumn<Destino, String> ciudadColumna = new TableColumn<>();
     public Button actualizarBoton;
     private String imagen;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         climaBox.getItems().addAll(climas);
-        tablaDestinos = new TableView<>();
-        paisColumna = new TableColumn<>();
-        ciudadColumna = new TableColumn<>();
+
+        paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
+        ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
+
         for(Destino destino : viajesUQ.getDestinos()) {
-            System.out.println(destino);
+            System.out.println(destino.getPais());
+            System.out.println(destino.getCiudad());
         }
-        try {
-            paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
-            ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
-            tablaDestinos.setItems(FXCollections.observableArrayList(viajesUQ.getDestinos()));
-            tablaDestinos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    // Imprimir la información del cliente seleccionado
-                    System.out.println("Destino seleccionado: " + newValue.getCiudad());
-                    System.out.println("País: " + newValue.getPais());
-                    if (newValue.getPais() != null && newValue.getCiudad() != null) {
-                        viajesUQ.eliminarDestino(newValue.getPais(), newValue.getCiudad());
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tablaDestinos.setItems(FXCollections.observableArrayList(viajesUQ.getDestinos()));
     }
 
     public void mostrarAñadirDestino() {
