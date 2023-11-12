@@ -1,26 +1,41 @@
 package Modelo;
 
 import Exceptions.AtributoVacioException;
+import Utils.ArchivoUtils;
 import lombok.Getter;
 import lombok.extern.java.Log;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 
 @Log
 public class ViajesUQ {
     @Getter
     private static ViajesUQ viajesUQ;
     @Getter
-    private final ArrayList<Destino> destinos = new ArrayList<>();
+    private final ArrayList<Destino> destinos;
 
     private ViajesUQ() {
-        //Aqui se inicializa el logger y se deserializan los archivos de persistencia
+        inicializarLogger();
+        log.info("Se cre una nueva instancia de ViajesUQ");
+
+        this.destinos = new ArrayList<>();
+        leerDestinos();
     }
 
     private void inicializarLogger(){
-        //Esta sería la forma de inicializar el logger
+        try {
+            FileHandler fh = new FileHandler("logs.log", true);
+            fh.setFormatter( new SimpleFormatter());
+            log.addHandler(fh);
+        }catch (IOException e){
+            log.severe(e.getMessage() );
+        }
     }
 
-    //El singleton de la clase ViajesUQ
+    //El singleton de la clase AgenciaUQ
     public static ViajesUQ getInstance(){
         if(viajesUQ == null){
             viajesUQ = new ViajesUQ();
@@ -55,6 +70,19 @@ public class ViajesUQ {
                 destinos.remove(destino);
                 break;
             }
+        }
+    }
+
+    private void leerDestinos() {
+        try{
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoScanner("src/main/resources/Data/destinos.txt");
+
+            for(String linea : lineas) {
+                String[] datos = linea.split("¡");
+                this.destinos.add(Destino.builder().pais(datos[0]).ciudad(datos[1]).descripcion(datos[2]).clima(datos[3]).imagen(datos[4]).build());
+            }
+        } catch (IOException e) {
+            log.severe(e.getMessage() );
         }
     }
 }
