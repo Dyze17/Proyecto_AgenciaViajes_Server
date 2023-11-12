@@ -4,6 +4,8 @@ import Exceptions.AtributoVacioException;
 import Modelo.AgenciaUQ;
 import Modelo.Destino;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +34,10 @@ public class DestinosController implements Initializable {
     public TableColumn<Destino, String> paisColumna = new TableColumn<>();
     public TableColumn<Destino, String> ciudadColumna = new TableColumn<>();
     public Button actualizarBoton;
+    public Button eliminarBoton;
+    public Button gestionarBoton;
     private String imagen;
+    private Destino destinoSeleccionado;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,11 +46,16 @@ public class DestinosController implements Initializable {
         paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
         ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
 
-        for(Destino destino : agenciaUQ.getDestinos()) {
-            System.out.println(destino.getPais());
-            System.out.println(destino.getCiudad());
-        }
         tablaDestinos.setItems(FXCollections.observableArrayList(agenciaUQ.getDestinos()));
+
+        tablaDestinos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Destino>() {
+            @Override
+            public void changed(ObservableValue<? extends Destino> observableValue, Destino destinoAntiguo, Destino destinoNuevo) {
+                if (destinoNuevo != null) {
+                    destinoSeleccionado = destinoNuevo;
+                }
+            }
+        });
     }
 
     public void mostrarAñadirDestino() {
@@ -74,6 +84,22 @@ public class DestinosController implements Initializable {
         }
     }
 
+    public void eliminarDestino() {
+        if(destinoSeleccionado != null) {
+            agenciaUQ.eliminarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
+            tablaDestinos.getItems().remove(destinoSeleccionado);
+            destinoSeleccionado = null;
+        }
+    }
+
+    public void actualizarDestino() {
+        if(destinoSeleccionado != null) {
+            agenciaUQ.actualizarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
+            tablaDestinos.refresh();
+            destinoSeleccionado = null;
+        }
+    }
+
     public void seleccionarImagen(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar imagen");
@@ -81,11 +107,10 @@ public class DestinosController implements Initializable {
         File archivoSeleccionado = fileChooser.showOpenDialog(null);
         if(archivoSeleccionado != null) {
             imagen = archivoSeleccionado.getAbsolutePath();
-            System.out.println("Ruta Imagen: " + imagen);
         }
     }
 
-    public void mostrarActualizarDestino() {
+    public void mostrarGestionarDestino() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/ActualizarDestino.fxml")));
             principalController.panelFormulario.getChildren().setAll(node);
