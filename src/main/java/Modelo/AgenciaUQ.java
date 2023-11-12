@@ -13,15 +13,15 @@ import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 
 @Log
-public class ViajesUQ {
+public class AgenciaUQ {
     @Getter
-    private static ViajesUQ viajesUQ;
+    private static AgenciaUQ agenciaUQ;
     @Getter
     private final ArrayList<Destino> destinos;
 
-    private ViajesUQ() {
+    private AgenciaUQ() {
         inicializarLogger();
-        log.info("Se cre una nueva instancia de ViajesUQ");
+        log.info("Se cre una nueva instancia de AgenciaUQ");
 
         this.destinos = new ArrayList<>();
         leerDestinos();
@@ -37,12 +37,12 @@ public class ViajesUQ {
         }
     }
 
-    //El singleton de la clase AgenciaUQ
-    public static ViajesUQ getInstance(){
-        if(viajesUQ == null){
-            viajesUQ = new ViajesUQ();
+    //El singleton de la clase AgenciaUQApp
+    public static AgenciaUQ getInstance(){
+        if(agenciaUQ == null){
+            agenciaUQ = new AgenciaUQ();
         }
-        return viajesUQ;
+        return agenciaUQ;
     }
 
     public Destino agregarDestino(String pais, String ciudad, String clima, String descripcion, String imagen) throws AtributoVacioException {
