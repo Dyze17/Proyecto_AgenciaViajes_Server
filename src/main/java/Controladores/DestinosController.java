@@ -1,9 +1,11 @@
 package Controladores;
 
 import Exceptions.AtributoVacioException;
+import Modelo.AgenciaUQ;
 import Modelo.Destino;
-import Modelo.ViajesUQ;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -25,14 +27,17 @@ public class DestinosController implements Initializable {
     public TextField paisField;
     public TextField ciudadField;
     public TextArea descripcionArea;
-    private final ViajesUQ viajesUQ = ViajesUQ.getInstance();
+    private final AgenciaUQ agenciaUQ = AgenciaUQ.getInstance();
     private final PrincipalController principalController = PrincipalController.getInstance();
     public Button añadirBoton;
     public TableView<Destino> tablaDestinos = new TableView<>();
     public TableColumn<Destino, String> paisColumna = new TableColumn<>();
     public TableColumn<Destino, String> ciudadColumna = new TableColumn<>();
     public Button actualizarBoton;
+    public Button eliminarBoton;
+    public Button gestionarBoton;
     private String imagen;
+    private Destino destinoSeleccionado;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,11 +46,16 @@ public class DestinosController implements Initializable {
         paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
         ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
 
-        for(Destino destino : viajesUQ.getDestinos()) {
-            System.out.println(destino.getPais());
-            System.out.println(destino.getCiudad());
-        }
-        tablaDestinos.setItems(FXCollections.observableArrayList(viajesUQ.getDestinos()));
+        tablaDestinos.setItems(FXCollections.observableArrayList(agenciaUQ.getDestinos()));
+
+        tablaDestinos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Destino>() {
+            @Override
+            public void changed(ObservableValue<? extends Destino> observableValue, Destino destinoAntiguo, Destino destinoNuevo) {
+                if (destinoNuevo != null) {
+                    destinoSeleccionado = destinoNuevo;
+                }
+            }
+        });
     }
 
     public void mostrarAñadirDestino() {
@@ -59,14 +69,34 @@ public class DestinosController implements Initializable {
 
     public void agregarDestino() {
         try{
-            Destino destino = viajesUQ.agregarDestino(
+            Destino destino = agenciaUQ.agregarDestino(
                     paisField.getText(),
                     ciudadField.getText(),
                     climaBox.getValue(),
                     descripcionArea.getText(),
                     imagen);
+            paisField.setText("");
+            ciudadField.setText("");
+            descripcionArea.setText("");
+            climaBox.setValue("");
         } catch (AtributoVacioException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarDestino() {
+        if(destinoSeleccionado != null) {
+            agenciaUQ.eliminarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
+            tablaDestinos.getItems().remove(destinoSeleccionado);
+            destinoSeleccionado = null;
+        }
+    }
+
+    public void actualizarDestino() {
+        if(destinoSeleccionado != null) {
+            agenciaUQ.actualizarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
+            tablaDestinos.refresh();
+            destinoSeleccionado = null;
         }
     }
 
@@ -77,11 +107,10 @@ public class DestinosController implements Initializable {
         File archivoSeleccionado = fileChooser.showOpenDialog(null);
         if(archivoSeleccionado != null) {
             imagen = archivoSeleccionado.getAbsolutePath();
-            System.out.println("Ruta Imagen: " + imagen);
         }
     }
 
-    public void mostrarActualizarDestino() {
+    public void mostrarGestionarDestino() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/ActualizarDestino.fxml")));
             principalController.panelFormulario.getChildren().setAll(node);

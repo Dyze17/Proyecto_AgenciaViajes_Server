@@ -11,6 +11,6 @@
             <TableColumn fx:id="ciudadColumna" prefWidth="209.0" resizable="false" text="Ciudad"/>
         </columns>
     </TableView>
-    <Button layoutX="75.0" layoutY="59.0" mnemonicParsing="false" text="Actualizar"/>
-    <Button layoutX="294.0" layoutY="59.0" mnemonicParsing="false" text="Eliminar"/>
+    <Button fx:id="actualizarBoton" onAction="#actualizarDestino" layoutX="75.0" layoutY="59.0" mnemonicParsing="false" text="Actualizar"/>
+    <Button fx:id="eliminarBoton" onAction="#eliminarDestino" layoutX="294.0" layoutY="59.0" mnemonicParsing="false" text="Eliminar"/>
 </AnchorPane>

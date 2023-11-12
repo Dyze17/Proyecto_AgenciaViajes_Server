@@ -21,7 +21,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>App.AgenciaUQ</mainClass>
+                    <mainClass>App.AgenciaUQApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -31,13 +31,13 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>19.0.2.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>19.0.2.1</version>
         </dependency>
 
         <dependency>

@@ -1,7 +1,6 @@
 package Controladores;
 
-import App.AgenciaUQ;
-import Modelo.ViajesUQ;
+import Modelo.AgenciaUQ;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,7 +13,7 @@ public class BuscadorController implements Initializable {
     public Button buscarBoton;
     public ComboBox<String> filtrosBox = new ComboBox<>();
     public TextField buscaField;
-    private static final ViajesUQ instance = ViajesUQ.getInstance();
+    private static final AgenciaUQ instance = AgenciaUQ.getInstance();
     private final String[] filtros = {"Pais", "Ciudad", "Clima"};
 
     @Override
