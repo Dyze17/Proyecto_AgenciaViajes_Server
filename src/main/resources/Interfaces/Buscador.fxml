@@ -4,8 +4,10 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="417.0" style="-fx-background-color: #497378;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.BuscadorController">
-    <TextField fx:id="buscaField" layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="200.0" promptText="Armenia, Medellin, ..." />
-    <ComboBox fx:id="filtrosBox" layoutX="215.0" layoutY="5.0" prefWidth="150.0" />
-    <Button fx:id="buscarBoton" layoutX="375.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="Button" />
-    <ScrollPane layoutX="4.0" layoutY="60.0" prefHeight="336.0" prefWidth="409.0" style="-fx-background-color: #497378;" />
+    <TextField layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="200.0" />
+    <ComboBox layoutX="215.0" layoutY="5.0" prefWidth="150.0" />
+    <Button layoutX="375.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="Button" />
+    <ScrollPane layoutX="4.0" layoutY="60.0" prefHeight="336.0" prefWidth="409.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+    </ScrollPane>
 </AnchorPane>
