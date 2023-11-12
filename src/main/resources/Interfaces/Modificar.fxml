@@ -8,36 +8,31 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="418.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarController">
    <children>
-       <TextField layoutX="61.0" layoutY="122.0" promptText="Email" />
-       <TextField layoutX="61.0" layoutY="214.0" promptText="Dirección" />
-       <TextField layoutX="61.0" layoutY="166.0" promptText="Contraseña" />
-       <TextField layoutX="61.0" layoutY="260.0" promptText="Teléfono" />
-       <Button fx:id="btnActualizar" layoutX="61.0" layoutY="325.0" mnemonicParsing="false" onAction="#mostrarActualizar" prefHeight="36.0" prefWidth="149.0" text="Guardar">
+       <TextField layoutX="255.0" layoutY="226.0" promptText="Nuevo Email" />
+       <TextField layoutX="45.0" layoutY="276.0" promptText="Dirección nueva" />
+       <TextField layoutX="45.0" layoutY="225.0" promptText="Contraseña nueva" />
+       <TextField layoutX="255.0" layoutY="276.0" promptText="Nuevo telefono" />
+       <Button fx:id="btnActualizar" layoutX="45.0" layoutY="325.0" mnemonicParsing="false" onAction="#mostrarActualizar" prefHeight="25.0" prefWidth="64.0" text="Guardar">
            <font>
              <Font name="Arial" size="9.0" />
            </font>
        </Button>
-      <ImageView fitHeight="143.0" fitWidth="143.0" layoutX="241.0" layoutY="142.0">
-         <image>
-            <Image url="@../Imagenes/ModificarUser.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="126.0">
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="228.0" layoutY="230.0">
          <image>
             <Image url="@../Imagenes/Email.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="170.0">
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="21.0" layoutY="229.0">
          <image>
             <Image url="@../Imagenes/Clave.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="218.0">
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="21.0" layoutY="280.0">
          <image>
             <Image url="@../Imagenes/Direccion.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="264.0">
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="228.0" layoutY="280.0">
          <image>
             <Image url="@../Imagenes/Telefon.png" />
          </image>
@@ -49,7 +44,24 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
+            <ImageView fitHeight="25.0" fitWidth="35.0" layoutX="98.0" layoutY="14.0">
+               <image>
+                  <Image url="@../Imagenes/ModificarUser.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
+      <TextField layoutX="45.0" layoutY="175.0" prefHeight="25.0" prefWidth="149.0" promptText="Nombre" />
+      <TextField layoutX="252.0" layoutY="175.0" promptText="Nuevo documento" />
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="21.0" layoutY="179.0">
+         <image>
+            <Image url="@../Imagenes/Nombre.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="228.0" layoutY="179.0">
+         <image>
+            <Image url="@../Imagenes/ID.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
