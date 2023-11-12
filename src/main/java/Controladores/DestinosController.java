@@ -65,6 +65,10 @@ public class DestinosController implements Initializable {
                     climaBox.getValue(),
                     descripcionArea.getText(),
                     imagen);
+            paisField.setText("");
+            ciudadField.setText("");
+            descripcionArea.setText("");
+            climaBox.setValue("");
         } catch (AtributoVacioException e) {
             throw new RuntimeException(e);
         }
