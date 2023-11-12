@@ -15,6 +15,8 @@ public class GestionController implements Initializable {
     public Button paquetesBoton;
     public Button guiasBoton;
 
+    public PrincipalController principalController = PrincipalController.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -23,8 +25,8 @@ public class GestionController implements Initializable {
     public void mostrarDestinos() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Destinos.fxml")));
-            PrincipalController.panelFormulario.getChildren().setAll(node);
-        }catch (Exception e){
+            principalController.panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -32,8 +34,8 @@ public class GestionController implements Initializable {
     public void mostrarEstadisticas() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Estadisticas.fxml")));
-            PrincipalController.panelFormulario.getChildren().setAll(node);
-        }catch (Exception e){
+            principalController.panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -41,8 +43,8 @@ public class GestionController implements Initializable {
     public void mostrarPaquetes() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Paquetes.fxml")));
-            PrincipalController.panelFormulario.getChildren().setAll(node);
-        }catch (Exception e){
+            principalController.panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -50,8 +52,8 @@ public class GestionController implements Initializable {
     public void mostrarGuias() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Guias.fxml")));
-            PrincipalController.panelFormulario.getChildren().setAll(node);
-        }catch (Exception e){
+            principalController.panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

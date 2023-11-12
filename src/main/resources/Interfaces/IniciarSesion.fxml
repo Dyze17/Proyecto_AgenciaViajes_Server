@@ -7,34 +7,32 @@
 <?import javafx.scene.text.*?>
 
 
-<Pane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="417.0" style="-fx-border-color: #FFFFFF; -fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Pane layoutX="-1.0" layoutY="38.0" prefHeight="52.0" prefWidth="419.0" style="-fx-background-color: #4B5F83;">
-         <children>
-            <Label layoutX="152.0" layoutY="16.0" text="Iniciar sesión" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <TextField layoutX="134.0" layoutY="221.0" prefHeight="25.0" prefWidth="149.0" promptText="Documento" />
-      <TextField layoutX="134.0" layoutY="254.0" prefHeight="25.0" prefWidth="149.0" promptText="Contraseña" />
-      <Label layoutX="195.0" layoutY="132.0" />
-      <Button layoutX="135.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Iniciar sesión">
+<Pane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="417.0"
+      style="-fx-border-color: #FFFFFF; -fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+   <Pane layoutX="-1.0" layoutY="38.0" prefHeight="52.0" prefWidth="419.0" style="-fx-background-color: #4B5F83;">
+      <Label layoutX="152.0" layoutY="16.0" text="Iniciar sesión" textFill="WHITE">
          <font>
-            <Font size="9.0" />
+            <Font name="Arial Bold" size="18.0"/>
          </font>
-      </Button>
-      <ImageView layoutX="161.0" layoutY="101.0">
-         <image>
-            <Image url="@../Imagenes/User2.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="134.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: transparents;" text="Registrarse" underline="true">
-         <font>
-            <Font name="System Bold" size="9.0" />
-         </font>
-      </Button>
-   </children>
+      </Label>
+   </Pane>
+   <TextField layoutX="134.0" layoutY="221.0" prefHeight="25.0" prefWidth="149.0" promptText="Documento"/>
+   <TextField layoutX="134.0" layoutY="254.0" prefHeight="25.0" prefWidth="149.0" promptText="Contraseña"/>
+   <Label layoutX="195.0" layoutY="132.0"/>
+   <Button layoutX="135.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0"
+           text="Iniciar sesión">
+      <font>
+         <Font size="9.0"/>
+      </font>
+   </Button>
+   <ImageView layoutX="161.0" layoutY="101.0">
+      <Image url="@../Imagenes/User2.png"/>
+   </ImageView>
+   <Button layoutX="134.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0"
+           style="-fx-background-color: transparents;" text="Registrarse" underline="true">
+      <font>
+         <Font name="System Bold" size="9.0"/>
+      </font>
+   </Button>
 </Pane>
