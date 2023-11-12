@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.2976588628762542" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
-  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #497378;">
-    <Button layoutY="109.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
-    <Button layoutY="154.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #527F85; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Gestion" />
-    <Button layoutY="199.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
-    <Button layoutY="245.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Button" />
-    <Button layoutY="290.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #527F85;" text="Buscador" />
-    <Label layoutX="46.0" layoutY="22.0" prefHeight="18.0" prefWidth="106.0" text="AGENCIA" textFill="WHITE">
-      <font>
-        <Font name="Bookman Old Style Italic" size="15.0" />
-      </font>
-    </Label>
-    <Label layoutX="89.0" layoutY="40.0" prefHeight="17.0" prefWidth="43.0" text="UQ" textAlignment="RIGHT" textFill="WHITE">
-      <font>
-        <Font name="Bookshelf Symbol 7" size="15.0" />
-      </font>
-    </Label>
-  </AnchorPane>
-  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="417.0" />
+<SplitPane dividerPositions="0.2976588628762542" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
+   <items>
+     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #4B5F83;">
+        <children>
+          <Button layoutY="154.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #576A8B; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Gestion" textFill="WHITE" />
+          <Button layoutY="199.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
+          <Button layoutY="245.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
+          <Button layoutY="109.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Buscador" textFill="WHITE" />
+          <Label layoutX="73.0" layoutY="25.0" prefHeight="32.0" prefWidth="83.0" text="AGENCIA" textFill="WHITE">
+            <font>
+              <Font name="Bookman Old Style Bold" size="15.0" />
+            </font>
+          </Label>
+          <Label layoutX="106.0" layoutY="41.0" prefHeight="45.0" prefWidth="32.0" text="UQ" textAlignment="RIGHT" textFill="WHITE">
+            <font>
+              <Font name="Arial Bold" size="15.0" />
+            </font>
+          </Label>
+            <Button layoutX="14.0" layoutY="57.0" mnemonicParsing="false" style="-fx-background-color: transparent;" />
+            <ImageView layoutX="14.0" layoutY="352.0">
+               <image>
+                  <Image url="@../Imagenes/Usuario.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="55.0" layoutX="14.0" layoutY="25.0">
+               <image>
+                  <Image url="@../../../../../../../../Downloads/Avion.png" />
+               </image>
+            </ImageView>
+        </children>
+     </AnchorPane>
+     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="417.0" />
+   </items>
 </SplitPane>
