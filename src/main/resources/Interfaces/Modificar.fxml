@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="317.0" prefWidth="421.0" style="-fx-background-color: #497378;"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controladores.ModificarController">
-    <Label layoutX="148.0" layoutY="14.0" text="Modificar perfil" textFill="WHITE">
-        <font>
-            <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <Label layoutX="7.0" layoutY="61.0" text="Nombre" textFill="WHITE">
-        <font>
-        <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <Label layoutX="7.0" layoutY="101.0" text="Apellido" textFill="WHITE">
-        <font>
-        <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <Label layoutX="7.0" layoutY="141.0" text="Email" textFill="WHITE">
-        <font>
-        <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <Label layoutX="7.0" layoutY="181.0" text="Telefono">
-        <font>
-        <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <Label layoutX="7.0" layoutY="221.0" text="Direccion">
-        <font>
-            <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Label>
-    <TextField layoutX="103.0" layoutY="55.0"/>
-    <TextField layoutX="103.0" layoutY="95.0"/>
-    <TextField layoutX="103.0" layoutY="174.0"/>
-    <TextField layoutX="103.0" layoutY="134.0"/>
-    <TextField layoutX="103.0" layoutY="215.0"/>
-    <Separator layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="400.0"/>
-    <Button fx:id="btnActualizar" layoutX="148.0" layoutY="260.0" mnemonicParsing="false" onAction="#mostrarActualizar"
-            text="Actualizar">
-        <font>
-          <Font name="Bookman Old Style" size="15.0"/>
-        </font>
-    </Button>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="418.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarController">
+   <children>
+       <TextField layoutX="61.0" layoutY="122.0" promptText="Email" />
+       <TextField layoutX="61.0" layoutY="214.0" promptText="Dirección" />
+       <TextField layoutX="61.0" layoutY="166.0" promptText="Contraseña" />
+       <TextField layoutX="61.0" layoutY="260.0" promptText="Teléfono" />
+       <Button fx:id="btnActualizar" layoutX="61.0" layoutY="325.0" mnemonicParsing="false" onAction="#mostrarActualizar" prefHeight="36.0" prefWidth="149.0" text="Guardar">
+           <font>
+             <Font name="Arial" size="9.0" />
+           </font>
+       </Button>
+      <ImageView fitHeight="143.0" fitWidth="143.0" layoutX="241.0" layoutY="142.0">
+         <image>
+            <Image url="@../Imagenes/ModificarUser.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="126.0">
+         <image>
+            <Image url="@../Imagenes/Email.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="170.0">
+         <image>
+            <Image url="@../Imagenes/Clave.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="218.0">
+         <image>
+            <Image url="@../Imagenes/Direccion.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="16.0" layoutX="37.0" layoutY="264.0">
+         <image>
+            <Image url="@../Imagenes/Telefon.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="-1.0" layoutY="31.0" prefHeight="52.0" prefWidth="419.0" style="-fx-background-color: #4B5F83;">
+         <children>
+            <Label layoutX="145.0" layoutY="16.0" text="Modificar perfil" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
