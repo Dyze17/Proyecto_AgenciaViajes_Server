@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.2976588628762542" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
-    <AnchorPane fx:id="panelIzquierdo" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #4B5F83;">
-        <Button fx:id="botonGestion" layoutY="154.0" mnemonicParsing="false" onAction="#mostrarGestion" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #576A8B; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Gestion" textFill="WHITE" />
-        <Button layoutY="199.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
-        <Button layoutY="245.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
-        <Button fx:id="botonBuscador" layoutY="109.0" mnemonicParsing="false" onAction="#mostrarBuscador" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Buscador" textFill="WHITE" />
-        <Label layoutX="73.0" layoutY="25.0" prefHeight="32.0" prefWidth="83.0" text="AGENCIA" textFill="WHITE">
-            <font>
-                <Font name="Bookman Old Style Bold" size="15.0" />
-            </font>
-        </Label>
-        <Label layoutX="106.0" layoutY="41.0" prefHeight="45.0" prefWidth="32.0" text="UQ" textAlignment="RIGHT" textFill="WHITE">
-            <font>
-                <Font name="Arial Bold" size="15.0" />
-            </font>
-        </Label>
-        <Button layoutX="7.0" layoutY="337.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent;">
-         <graphic>
-              <ImageView>
-                  <Image url="@../Imagenes/User.png" />
+<SplitPane dividerPositions="0.2976588628762542" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
+   <items>
+       <AnchorPane fx:id="panelIzquierdo" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #4B5F83;">
+          <children>
+              <Button fx:id="botonGestion" layoutY="154.0" mnemonicParsing="false" onAction="#mostrarGestion" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #576A8B; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Gestion" textFill="WHITE" />
+              <Button layoutY="199.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
+              <Button layoutY="245.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
+              <Button fx:id="botonBuscador" layoutY="109.0" mnemonicParsing="false" onAction="#mostrarBuscador" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Buscador" textFill="WHITE" />
+              <Label layoutX="73.0" layoutY="25.0" prefHeight="32.0" prefWidth="83.0" text="AGENCIA" textFill="WHITE">
+                  <font>
+                      <Font name="Bookman Old Style Bold" size="15.0" />
+                  </font>
+              </Label>
+              <Label layoutX="106.0" layoutY="41.0" prefHeight="45.0" prefWidth="32.0" text="UQ" textAlignment="RIGHT" textFill="WHITE">
+                  <font>
+                      <Font name="Arial Bold" size="15.0" />
+                  </font>
+              </Label>
+              <Button layoutX="7.0" layoutY="337.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent;">
+               <graphic>
+                    <ImageView>
+                       <image>
+                           <Image url="@../Imagenes/User.png" />
+                       </image>
+                    </ImageView>
+               </graphic>
+            </Button>
+              <ImageView fitHeight="45.0" fitWidth="55.0" layoutX="14.0" layoutY="25.0">
+                 <image>
+                     <Image url="@../Imagenes/Avion.png" />
+                 </image>
               </ImageView>
-         </graphic></Button>
-        <ImageView fitHeight="45.0" fitWidth="55.0" layoutX="14.0" layoutY="25.0">
-            <Image url="@../Imagenes/Avion.png" />
-        </ImageView>
-    </AnchorPane>
-
-    <AnchorPane fx:id="panelDerecho">
-        <AnchorPane fx:id="panelFormulario" layoutX="30.0" />
-    </AnchorPane>
+            <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="41.0" layoutY="119.0">
+               <image>
+                  <Image url="@../Imagenes/Lupa.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="15.0" fitWidth="17.0" layoutX="39.0" layoutY="170.0">
+               <image>
+                  <Image url="@../Imagenes/Gestion.png" />
+               </image>
+            </ImageView>
+          </children>
+       </AnchorPane>
+   
+       <AnchorPane fx:id="panelDerecho">
+      <children>
+              <AnchorPane fx:id="panelFormulario" layoutX="30.0" />
+      </children>
+       </AnchorPane>
+   </items>
 </SplitPane>
