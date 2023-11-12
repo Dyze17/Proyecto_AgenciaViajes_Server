@@ -3,8 +3,7 @@ package Controladores;
 import Exceptions.AtributoVacioException;
 import Modelo.Destino;
 import Modelo.ViajesUQ;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +21,7 @@ public class DestinosController implements Initializable {
     public Button selecImgBoton;
     public Button addDestBoton;
     public ComboBox<String> climaBox = new ComboBox<>();
+    private final String[] climas = {"Cálido", "Frío", "Templado"};
     public TextField paisField;
     public TextField ciudadField;
     public TextArea descripcionArea;
@@ -29,26 +29,31 @@ public class DestinosController implements Initializable {
     private final PrincipalController principalController = PrincipalController.getInstance();
     public Button añadirBoton;
     public TableView<Destino> tablaDestinos;
+    public TableColumn<Destino, String> paisColumna;
+    public TableColumn<Destino, String> ciudadColumna;
     public Button actualizarBoton;
     private String imagen;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        climaBox.getItems().addAll(climas);
         tablaDestinos = new TableView<>();
-        climaBox = new ComboBox<>();
-        climaBox.getItems().addAll("Cálido", "Frío", "Templado");
+        paisColumna = new TableColumn<>();
+        ciudadColumna = new TableColumn<>();
+        for(Destino destino : viajesUQ.getDestinos()) {
+            System.out.println(destino);
+        }
         try {
+            paisColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
+            ciudadColumna.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
             tablaDestinos.setItems(FXCollections.observableArrayList(viajesUQ.getDestinos()));
-            tablaDestinos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Destino>() {
-                @Override
-                public void changed(ObservableValue<? extends Destino> observable, Destino oldValue, Destino newValue) {
-                    if (newValue != null) {
-                        // Imprimir la información del cliente seleccionado
-                        System.out.println("Destino seleccionado: " + newValue.getCiudad());
-                        System.out.println("País: " + newValue.getPais());
-                        if(newValue.getPais() != null && newValue.getCiudad() != null) {
-                            viajesUQ.eliminarDestino(newValue.getPais(), newValue.getCiudad());
-                        }
+            tablaDestinos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    // Imprimir la información del cliente seleccionado
+                    System.out.println("Destino seleccionado: " + newValue.getCiudad());
+                    System.out.println("País: " + newValue.getPais());
+                    if (newValue.getPais() != null && newValue.getCiudad() != null) {
+                        viajesUQ.eliminarDestino(newValue.getPais(), newValue.getCiudad());
                     }
                 }
             });

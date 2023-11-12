@@ -6,10 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ViajesUQ extends Application {
+public class AgenciaUQ extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(ViajesUQ.class.getResource("/Interfaces/Principal.fxml"));
+        FXMLLoader loader = new FXMLLoader(AgenciaUQ.class.getResource("/Interfaces/Principal.fxml"));
         Parent parent = loader.load();
 
         Scene scene = new Scene(parent);
@@ -19,6 +19,6 @@ public class ViajesUQ extends Application {
     }
 
     public static void main(String[] args) {
-        launch(ViajesUQ.class,args);
+        launch(AgenciaUQ.class,args);
     }
 }
