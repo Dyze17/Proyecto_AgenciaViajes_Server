@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="317.0" prefWidth="421.0" style="-fx-background-color: #497378;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarPerfilController">
+<AnchorPane prefHeight="398.0" prefWidth="417.0" style="-fx-background-color: #497378;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarPerfilController">
     <children>
         <Label layoutX="148.0" layoutY="14.0" text="Modificar perfil" textFill="WHITE">
             <font>
@@ -39,7 +37,7 @@
       <TextField layoutX="103.0" layoutY="134.0" />
       <TextField layoutX="103.0" layoutY="215.0" />
       <Separator layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="400.0" />
-      <Button fx:id="btnActualizar" layoutX="148.0" layoutY="260.0" mnemonicParsing="false" onAction="#ShowActualizar" text="Actualizar">
+      <Button fx:id="btnActualizar" layoutX="156.0" layoutY="347.0" mnemonicParsing="false" onAction="#ShowActualizar" text="Actualizar">
          <font>
             <Font name="Bookman Old Style" size="15.0" />
          </font></Button>
