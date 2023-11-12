@@ -2,15 +2,23 @@ package Modelo;
 
 import Exceptions.AtributoVacioException;
 import Utils.ArchivoUtils;
+import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
 import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 @Log
 public class AgenciaUQ {
@@ -18,6 +26,7 @@ public class AgenciaUQ {
     private static AgenciaUQ agenciaUQ;
     @Getter
     private final ArrayList<Destino> destinos;
+    private String imagen;
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -72,8 +81,83 @@ public class AgenciaUQ {
         for (Destino destino : destinos) {
             if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
                 destinos.remove(destino);
+                borrarDestino(destino);
                 break;
             }
+        }
+    }
+
+    private void borrarDestino(Destino destino) {
+        String filePath = "src/main/resources/Data/destinos.txt";
+        String lineToRemove = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
+        System.out.println(lineToRemove);
+        try {
+            // Leer el contenido del archivo y almacenarlo en una lista
+            Path path = Paths.get(filePath);
+            List<String> lines = Files.readAllLines(path);
+
+            // Buscar la línea que se desea borrar y removerla
+            lines = lines.stream().filter(line -> !line.contains(lineToRemove)).collect(Collectors.toList());
+
+            // Escribir el nuevo contenido de vuelta al archivo
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String updatedLine : lines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            }
+
+            System.out.println("Línea eliminada exitosamente.");
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+    }
+
+    public void actualizarDestino(String pais, String ciudad) {
+        for (Destino destino : destinos) {
+            if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
+                Destino nuevo = new Destino();
+                nuevo.setPais(pais);
+                nuevo.setCiudad(ciudad);
+                nuevo.setDescripcion(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
+                nuevo.setClima(JOptionPane.showInputDialog("Ingrese el nuevo clima"));
+                seleccionarImagen();
+                nuevo.setImagen(imagen);
+                editarDestino(destino, nuevo);
+                break;
+            }
+        }
+    }
+
+    public void editarDestino(Destino destino, Destino nuevo) {
+        String filePath = "src/main/resources/Data/destinos.txt";
+        String lineToReplace = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
+        String newLine = nuevo.getPais() + "¡" + nuevo.getCiudad() + "¡" + nuevo.getDescripcion() + "¡" + nuevo.getClima() + "¡" + nuevo.getImagen();
+
+        try {
+            // Leer el contenido del archivo y almacenarlo en una lista
+            Path path = Paths.get(filePath);
+            List<String> lines = Files.readAllLines(path);
+
+            // Reemplazar la línea existente con la nueva línea
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).contains(lineToReplace)) {
+                    lines.set(i, newLine);
+                    break; // Solo necesitas reemplazar una vez
+                }
+            }
+
+            // Escribir el nuevo contenido de vuelta al archivo
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String updatedLine : lines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            }
+
+            System.out.println("Línea reemplazada exitosamente.");
+        } catch (IOException e) {
+            log.severe(e.getMessage());
         }
     }
 
@@ -96,6 +180,16 @@ public class AgenciaUQ {
             ArchivoUtils.escribirArchivoBufferedWriter("src/main/resources/Data/destinos.txt", List.of(linea), true);
         } catch (IOException e) {
             log.severe(e.getMessage());
+        }
+    }
+
+    private void seleccionarImagen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar imagen");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
+        File archivoSeleccionado = fileChooser.showOpenDialog(null);
+        if(archivoSeleccionado != null) {
+            imagen = archivoSeleccionado.getAbsolutePath();
         }
     }
 }
