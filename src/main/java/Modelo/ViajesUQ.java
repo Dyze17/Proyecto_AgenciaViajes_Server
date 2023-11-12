@@ -5,8 +5,10 @@ import Utils.ArchivoUtils;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 
@@ -61,6 +63,8 @@ public class ViajesUQ {
         }
         Destino destino = Destino.builder().pais(pais).ciudad(ciudad).clima(clima).descripcion(descripcion).imagen(imagen).build();
         destinos.add(destino);
+        escribirDestinos(destino);
+        JOptionPane.showMessageDialog(null, "Destino agregado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
         return destino;
     }
 
@@ -83,6 +87,15 @@ public class ViajesUQ {
             }
         } catch (IOException e) {
             log.severe(e.getMessage() );
+        }
+    }
+
+    private void escribirDestinos(Destino destino) {
+        try{
+            String linea = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
+            ArchivoUtils.escribirArchivoBufferedWriter("src/main/resources/Data/destinos.txt", List.of(linea), true);
+        } catch (IOException e) {
+            log.severe(e.getMessage());
         }
     }
 }
