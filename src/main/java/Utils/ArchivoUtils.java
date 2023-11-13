@@ -2,21 +2,8 @@ package Utils;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /**
  * Clase de utilidad para la lectura y escritura de archivos
@@ -24,6 +11,22 @@ import java.util.Scanner;
  *
  */
 public class ArchivoUtils {
+
+    /**
+     * Permite leer un archivo de propiedades desde una ruta específica
+     * @param ruta Ruta del archivo de propiedades
+     * @return Objeto Properties con los datos del archivo
+     * @throws IOException
+     */
+    public static Properties leerPropiedades(String ruta) throws IOException{
+        Properties prop = new Properties();
+        FileInputStream fis = new FileInputStream(ruta);
+        prop.load(fis);
+        fis.close();
+
+        return prop;
+    }
+
 
     /**
      * Permite leer un archivo desde una ruta específica mediante Scanner
