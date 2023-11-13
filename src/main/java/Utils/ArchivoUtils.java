@@ -13,6 +13,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -156,4 +159,17 @@ public class ArchivoUtils {
         return objeto;
     }
 
+    public static void actualizarLineaEnArchivo(String rutaArchivo, String lineaAntigua, String nuevaLinea) throws IOException {
+        Path archivoPath = Path.of(rutaArchivo);
+        List<String> lineas = Files.readAllLines(archivoPath);
+
+        for (int i = 0; i < lineas.size(); i++) {
+            if (lineas.get(i).equals(lineaAntigua)) {
+                lineas.set(i, nuevaLinea);
+                break;  // Salir del bucle después de encontrar y actualizar la línea
+            }
+        }
+        // Escribir las líneas actualizadas en el archivo
+        Files.write(archivoPath, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+    }
 }
