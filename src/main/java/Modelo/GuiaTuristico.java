@@ -1,9 +1,11 @@
 package Modelo;
 
 
+import Utils.ArchivoUtils;
 import lombok.*;
 import Enum.Idioma;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Getter
@@ -17,6 +19,8 @@ public class GuiaTuristico {
     private Idioma idioma;
     private String telefono;
     private double calificacion;
+
+
 
 
 
