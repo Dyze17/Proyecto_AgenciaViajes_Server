@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SesionIniciadaController {
-    IniciarSesionController iniciar = new IniciarSesionController();
+    IniciarSesionController iniciar = IniciarSesionController.getInstance();
     public Label name;
     public Button salirBoton;
     public void mostrarInicio() {

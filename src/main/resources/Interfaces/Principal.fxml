@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
     <AnchorPane fx:id="panelDerecho" prefHeight="398.0" prefWidth="425.0">
         <AnchorPane fx:id="panelFormulario" layoutX="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="425.0" />
     </AnchorPane>
@@ -24,7 +24,7 @@
                 <Font name="Arial Bold" size="15.0" />
             </font>
         </Label>
-        <Button fx:id="botonIniciar" onAction="#mostrarIniciar" layoutX="7.0" layoutY="337.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent;">
+        <Button fx:id="botonIniciar" layoutX="7.0" layoutY="337.0" mnemonicParsing="false" onAction="#mostrarIniciar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent;">
             <graphic>
                 <ImageView>
                     <Image url="@../Imagenes/User.png" />

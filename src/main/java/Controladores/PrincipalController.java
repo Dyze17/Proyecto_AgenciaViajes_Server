@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+
+import javax.swing.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -32,11 +34,21 @@ public class PrincipalController implements Initializable {
     }
 
     public void mostrarGestion() {
-        try {
-            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Gestion.fxml")));
-            panelFormulario.getChildren().setAll(node);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        //Solamente muestra la pantalla de gestion si el usuario iniciado de sesion es administrador
+        if(IniciarSesionController.iniciado && IniciarSesionController.administrador) {
+            try {
+                Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Gestion.fxml")));
+                panelFormulario.getChildren().setAll(node);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            try {
+                Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/IniciarSesion.fxml")));
+                panelFormulario.getChildren().setAll(node);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -50,11 +62,20 @@ public class PrincipalController implements Initializable {
     }
 
     public void mostrarIniciar() {
-        try {
-            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/IniciarSesion.fxml")));
-            panelFormulario.getChildren().setAll(node);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        if(IniciarSesionController.iniciado) {
+            try {
+                Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/SesionIniciada.fxml")));
+                panelFormulario.getChildren().setAll(node);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            try {
+                Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/IniciarSesion.fxml")));
+                panelFormulario.getChildren().setAll(node);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
