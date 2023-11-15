@@ -1,13 +1,11 @@
 package Controladores;
 
-import Utils.ArchivoUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Objects;
@@ -18,7 +16,15 @@ public class IniciarSesionController {
     public TextField documentoTxt;
     public TextField claveTxt;
     public Button iniciarBoton;
-    public boolean iniciado;
+    static boolean iniciado;
+    static boolean administrador;
+
+    public static IniciarSesionController getInstance() {
+        if (instance == null) {
+            instance = new IniciarSesionController();
+        }
+        return instance;
+    }
     public void mostrarRegistrar() {
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Registrar.fxml")));
@@ -37,7 +43,7 @@ public class IniciarSesionController {
             return;
         }
 
-        // Verificar las credenciales en el archivo CSV
+        // Verificar las credenciales en el archivo txt
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Data/users.txt"))) {
             String line;
             boolean credencialesCorrectas = false; // Variable para verificar si se encontraron credenciales válidas
@@ -46,6 +52,7 @@ public class IniciarSesionController {
                 String[] userData = line.split(",");
                 if (userData.length >= 3 && userData[2].equals(documento) && userData[0].equals(clave)) {
                     credencialesCorrectas = true;
+                    administrador = userData[6].equalsIgnoreCase("administrador");
                     break; // Salimos del bucle si encontramos credenciales válidas
                 }
             }
@@ -71,6 +78,7 @@ public class IniciarSesionController {
             mostrarMensaje("Error al leer el archivo: " + e.getMessage());
         }
     }
+
     private void mostrarMensaje(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Mensaje");
