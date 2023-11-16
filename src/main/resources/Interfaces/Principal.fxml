@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PrincipalController">
    <children>
        <AnchorPane fx:id="panelDerecho" prefHeight="398.0" prefWidth="425.0">
           <children>
@@ -16,8 +15,8 @@
        <AnchorPane fx:id="panelIzquierdo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="175.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 2px 0px 0px; -fx-background-color: #4B5F83;">
           <children>
               <Button fx:id="botonGestion" layoutY="154.0" mnemonicParsing="false" onAction="#mostrarGestion" prefHeight="45.0" prefWidth="172.0" style="-fx-background-color: #576A8B; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: #FFFFFF;" text="Gestion" textFill="WHITE" />
-              <Button fx:id="btnReserva" layoutY="199.0" mnemonicParsing="false" onAction="#ShowReserva" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Reserva" textFill="WHITE" />
-              <Button layoutY="245.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Button" textFill="WHITE" />
+              <Button fx:id="btnReserva" layoutY="199.0" mnemonicParsing="false" onAction="#showReserva" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Reserva" textFill="WHITE" />
+              <Button fx:id="btnModificarPerfil" layoutY="245.0" mnemonicParsing="false" onAction="#showModificar" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Modificar perfil" textFill="WHITE" />
               <Button fx:id="botonBuscador" layoutY="109.0" mnemonicParsing="false" onAction="#mostrarBuscador" prefHeight="45.0" prefWidth="172.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #576A8B;" text="Buscador" textFill="WHITE" />
               <Label layoutX="73.0" layoutY="25.0" prefHeight="32.0" prefWidth="83.0" text="AGENCIA" textFill="WHITE">
                   <font>

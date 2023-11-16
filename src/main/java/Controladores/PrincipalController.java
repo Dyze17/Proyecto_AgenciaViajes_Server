@@ -31,6 +31,8 @@ public class PrincipalController implements Initializable {
     public Button botonGestion;
     public Button botonBuscador;
 
+    public Button btnModificarPerfil;
+
     @FXML
     public AnchorPane panelFormulario;
 
@@ -40,12 +42,19 @@ public class PrincipalController implements Initializable {
     }
 
     @FXML
-    public void ShowReserva() {
+    public void showReserva() {
         try {
-            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva.fxml")));
-            Stage stage = new Stage();
-            stage.setScene(new Scene((Parent) node));
-            stage.show();
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva2.fxml")));
+            panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void showModificar (){
+        try {
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Modificar.fxml")));
+            panelFormulario.getChildren().setAll(node);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

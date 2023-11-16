@@ -43,30 +43,24 @@ public class ReservaAgregarController implements Initializable {
             @Override
             public void run() {
                 boxEstado.getItems().addAll(EstadoReserva.values());
-                for (Short i = 1; i <= 20; i++) {
+                for (short i = 1; i <= 20; i++) {
                     boxNumPersonas.getItems().add(i);
                 }
                 try {
-                    ArrayList<String> nombresGuias = AgenciaUQ.getAgenciaUQ().leerGuiasNombres();
+                    ArrayList<String> nombresGuias = AgenciaUQ.leerGuiasNombres();
                     for(String nombre : nombresGuias) {
                         boxGuia.getItems().add(nombre);
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
             }
         }).start();
-
-
-
     }
-
 
     @FXML
     public void showNuevaReserva(ActionEvent event) {
 
     }
-
 
 }

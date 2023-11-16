@@ -28,7 +28,7 @@ public class AgenciaUQ {
     private final ArrayList<Destino> destinos;
     private String imagen;
     private ArrayList<GuiaTuristico> guias;
-    private String rutaGuias = "src/main/resources/Data/guiasTuristicos.txt";
+    private static String rutaGuias = "src/main/resources/Data/guiasTuristicos.txt";
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -217,7 +217,7 @@ public class AgenciaUQ {
         }
     }
 
-    public ArrayList<String> leerGuiasNombres() throws IOException {
+    public static ArrayList<String> leerGuiasNombres() throws IOException {
         ArrayList<String> nombres = null;
         try {
             ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaGuias);
