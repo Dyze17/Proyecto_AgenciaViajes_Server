@@ -48,12 +48,9 @@ public class DestinosController implements Initializable {
 
         tablaDestinos.setItems(FXCollections.observableArrayList(agenciaUQ.getDestinos()));
 
-        tablaDestinos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Destino>() {
-            @Override
-            public void changed(ObservableValue<? extends Destino> observableValue, Destino destinoAntiguo, Destino destinoNuevo) {
-                if (destinoNuevo != null) {
-                    destinoSeleccionado = destinoNuevo;
-                }
+        tablaDestinos.getSelectionModel().selectedItemProperty().addListener((observableValue, destinoAntiguo, destinoNuevo) -> {
+            if (destinoNuevo != null) {
+                destinoSeleccionado = destinoNuevo;
             }
         });
     }
