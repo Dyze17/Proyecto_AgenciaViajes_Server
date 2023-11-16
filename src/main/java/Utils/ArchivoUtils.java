@@ -2,8 +2,24 @@ package Utils;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Clase de utilidad para la lectura y escritura de archivos
@@ -159,4 +175,17 @@ public class ArchivoUtils {
         return objeto;
     }
 
+    public static void actualizarLineaEnArchivo(String rutaArchivo, String lineaAntigua, String nuevaLinea) throws IOException {
+        Path archivoPath = Path.of(rutaArchivo);
+        List<String> lineas = Files.readAllLines(archivoPath);
+
+        for (int i = 0; i < lineas.size(); i++) {
+            if (lineas.get(i).equals(lineaAntigua)) {
+                lineas.set(i, nuevaLinea);
+                break;  // Salir del bucle después de encontrar y actualizar la línea
+            }
+        }
+        // Escribir las líneas actualizadas en el archivo
+        Files.write(archivoPath, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+    }
 }
