@@ -3,15 +3,13 @@ package Controladores;
 import Exceptions.AtributoVacioException;
 import Modelo.AgenciaUQ;
 import Modelo.Destino;
+import Modelo.PaqueteTuristico;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,8 +29,14 @@ public class PaquetesController implements Initializable {
     public TableView<Destino> tablaDestinos = new TableView<>();
     public TableColumn<Destino, String> columnaPais = new TableColumn<>();
     public TableColumn<Destino, String> columnaCiudad = new TableColumn<>();
+    public Button actualizarBoton;
+    public Button eliminarBoton;
+    public TableView<PaqueteTuristico> tablaPaquetes = new TableView<>();
+    public TableColumn<PaqueteTuristico, String> columnaNombre = new TableColumn<>();
+    public TableColumn<PaqueteTuristico, String> columnaDestinos = new TableColumn<>();
     private Destino destinoSeleccionado;
     private final ArrayList<Destino> destinos = new ArrayList<>();
+    private PaqueteTuristico paqueteSeleccionado;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,6 +51,23 @@ public class PaquetesController implements Initializable {
                 destinos.add(destinoNuevo);
             }
         });
+
+        columnaNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
+        columnaDestinos.setCellValueFactory(cellData -> {
+            StringBuilder destinos = new StringBuilder();
+            for (Destino destino : cellData.getValue().getDestinoArrayList()) {
+                destinos.append(destino.getCiudad()).append(", ");
+            }
+            return new SimpleStringProperty(destinos.toString());
+        });
+
+        tablaPaquetes.setItems(FXCollections.observableArrayList(agenciaUQ.getPaquetes()));
+
+        tablaPaquetes.getSelectionModel().selectedItemProperty().addListener((observableValue, paqueteAntiguo, paqueteNuevo) -> {
+            if (paqueteNuevo != null) {
+                paqueteSeleccionado = paqueteNuevo;
+            }
+        });
     }
 
     public void mostrarAñadir() {
@@ -58,7 +79,7 @@ public class PaquetesController implements Initializable {
         }
     }
 
-    public void añadirPaquete() throws AtributoVacioException {
+    public void añadirPaquete() {
         try {
             if(destinoSeleccionado != null) {
                 agenciaUQ.añadirPaquete(nombreField.getText(), descripcionArea.getText(), fechaInicial.getValue(), fechaFinal.getValue(), destinos);
@@ -67,8 +88,42 @@ public class PaquetesController implements Initializable {
                 fechaInicial.setValue(null);
                 fechaFinal.setValue(null);
                 destinos.clear();
+                tablaPaquetes.refresh();
             }
-        } catch (AtributoVacioException | IOException e) {
+        } catch (IOException | AtributoVacioException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void mostrarGestionar() {
+        try {
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/ActualizarPaquete.fxml")));
+            principalController.panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void actualizarPaquete() {
+        try {
+            if(paqueteSeleccionado != null) {
+                agenciaUQ.actualizarPaquete(paqueteSeleccionado.getNombre());
+                tablaPaquetes.refresh();
+                paqueteSeleccionado = null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarPaquete() {
+        try {
+            if(paqueteSeleccionado != null) {
+                agenciaUQ.eliminarPaquete(paqueteSeleccionado.getNombre());
+                tablaPaquetes.getItems().remove(paqueteSeleccionado);
+                paqueteSeleccionado = null;
+            }
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
