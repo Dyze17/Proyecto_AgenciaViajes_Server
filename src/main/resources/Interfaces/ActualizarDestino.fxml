@@ -3,14 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="398.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.DestinosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.DestinosController">
     <TableView fx:id="tablaDestinos" layoutX="4.0" layoutY="144.0" prefHeight="252.0" prefWidth="410.0">
         <columns>
-            <TableColumn fx:id="paisColumna" prefWidth="209.0" resizable="false" text="Pais"/>
-            <TableColumn fx:id="ciudadColumna" prefWidth="209.0" resizable="false" text="Ciudad"/>
+            <TableColumn fx:id="paisColumna" prefWidth="209.0" resizable="false" text="Pais" />
+            <TableColumn fx:id="ciudadColumna" prefWidth="209.0" resizable="false" text="Ciudad" />
         </columns>
     </TableView>
-    <Button fx:id="actualizarBoton" onAction="#actualizarDestino" layoutX="75.0" layoutY="59.0" mnemonicParsing="false" text="Actualizar"/>
-    <Button fx:id="eliminarBoton" onAction="#eliminarDestino" layoutX="294.0" layoutY="59.0" mnemonicParsing="false" text="Eliminar"/>
+    <Button fx:id="actualizarBoton" layoutX="75.0" layoutY="59.0" mnemonicParsing="false" onAction="#actualizarDestino" style="-fx-background-color: #4B5F83;" text="Actualizar" textFill="WHITE" />
+    <Button fx:id="eliminarBoton" layoutX="294.0" layoutY="59.0" mnemonicParsing="false" onAction="#eliminarDestino" style="-fx-background-color: #4B5F83;" text="Eliminar" textFill="WHITE" />
 </AnchorPane>

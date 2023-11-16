@@ -102,10 +102,10 @@ public class AgenciaUQ {
             Destino destino = iterator.next();
             if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
                 iterator.remove();
-                borrarDestino(destino); // Suponiendo que esta función realiza alguna acción adicional
-                eliminarDestinoRecursivo(iterator, pais, ciudad); // Llamada recursiva
+                borrarDestino(destino);
+                eliminarDestinoRecursivo(iterator, pais, ciudad);
             } else {
-                eliminarDestinoRecursivo(iterator, pais, ciudad); // Llamada recursiva sin eliminar el elemento actual
+                eliminarDestinoRecursivo(iterator, pais, ciudad);
             }
         }
     }
@@ -272,5 +272,26 @@ public class AgenciaUQ {
         PaqueteTuristico paquete = PaqueteTuristico.builder().nombre(nombrePaquete).adicionales(descripcionPaquete).fechaInicio(fechaInicial).fechaFin(fechaFinal).destinoArrayList(destinos).build();
         paquetes.add(paquete);
         ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
+        JOptionPane.showMessageDialog(null, "Paquete agregado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void actualizarPaquete(String nombre) throws IOException {
+        for (PaqueteTuristico paquete : paquetes) {
+            if (paquete.getNombre().equals(nombre)) {
+                paquete.setAdicionales(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
+                ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
+                break;
+            }
+        }
+    }
+
+    public void eliminarPaquete(String nombre) throws IOException {
+        for(PaqueteTuristico paquete : paquetes) {
+            if(paquete.getNombre().equals(nombre)) {
+                paquetes.remove(paquete);
+                ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
+                break;
+            }
+        }
     }
 }

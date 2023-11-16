@@ -13,5 +13,5 @@
       </Label>
    </Pane>
    <Button fx:id="añadirBoton" layoutX="79.0" layoutY="187.0" mnemonicParsing="false" onAction="#mostrarAñadir" style="-fx-background-color: #4B5F83;" text="Añadir" textFill="WHITE" />
-   <Button fx:id="gestionarBoton" layoutX="284.0" layoutY="187.0" mnemonicParsing="false" style="-fx-background-color: #4B5F83;" text="Gestionar" textFill="WHITE" />
+   <Button fx:id="gestionarBoton" layoutX="284.0" layoutY="187.0" mnemonicParsing="false" onAction="#mostrarGestionar" style="-fx-background-color: #4B5F83;" text="Gestionar" textFill="WHITE" />
 </AnchorPane>
