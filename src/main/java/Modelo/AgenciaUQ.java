@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
@@ -26,9 +28,14 @@ public class AgenciaUQ {
     private static AgenciaUQ agenciaUQ;
     @Getter
     private final ArrayList<Destino> destinos;
+    @Getter
+    private final ArrayList<PaqueteTuristico> paquetes;
     private String imagen;
     private ArrayList<GuiaTuristico> guias;
-    private static String rutaGuias = "src/main/resources/Data/guiasTuristicos.txt";
+    private static final String RUTAUSERS = "src/main/resources/Data/users.txt";
+    private static final String RUTADESTINOS = "src/main/resources/Data/destinos.txt";
+    private static final String RUTAPAQUETES = "src/main/resources/Data/paquetes.ser";
+    private static final String RUTAGUIAS = "src/main/resources/Data/guiasTuristicos.txt";
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -36,6 +43,13 @@ public class AgenciaUQ {
 
         this.destinos = new ArrayList<>();
         leerDestinos();
+
+        this.paquetes = new ArrayList<>();
+        try {
+            this.paquetes.addAll((ArrayList<PaqueteTuristico>) ArchivoUtils.deserializarObjeto(RUTAPAQUETES));
+        } catch (IOException | ClassNotFoundException e) {
+            log.severe(e.getMessage());
+        }
     }
 
     private void inicializarLogger(){
@@ -80,17 +94,24 @@ public class AgenciaUQ {
     }
 
     public void eliminarDestino(String pais, String ciudad) {
-        for (Destino destino : destinos) {
+        eliminarDestinoRecursivo(destinos.iterator(), pais, ciudad);
+    }
+
+    private void eliminarDestinoRecursivo(Iterator<Destino> iterator, String pais, String ciudad) {
+        if (iterator.hasNext()) {
+            Destino destino = iterator.next();
             if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
-                destinos.remove(destino);
-                borrarDestino(destino);
-                break;
+                iterator.remove();
+                borrarDestino(destino); // Suponiendo que esta función realiza alguna acción adicional
+                eliminarDestinoRecursivo(iterator, pais, ciudad); // Llamada recursiva
+            } else {
+                eliminarDestinoRecursivo(iterator, pais, ciudad); // Llamada recursiva sin eliminar el elemento actual
             }
         }
     }
 
     private void borrarDestino(Destino destino) {
-        String filePath = "src/main/resources/Data/destinos.txt";
+        String filePath = RUTADESTINOS;
         String lineToRemove = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
         System.out.println(lineToRemove);
         try {
@@ -132,7 +153,7 @@ public class AgenciaUQ {
     }
 
     public void editarDestino(Destino destino, Destino nuevo) {
-        String filePath = "src/main/resources/Data/destinos.txt";
+        String filePath = RUTADESTINOS;
         String lineToReplace = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
         String newLine = nuevo.getPais() + "¡" + nuevo.getCiudad() + "¡" + nuevo.getDescripcion() + "¡" + nuevo.getClima() + "¡" + nuevo.getImagen();
 
@@ -165,7 +186,7 @@ public class AgenciaUQ {
 
     private void leerDestinos() {
         try{
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoScanner("src/main/resources/Data/destinos.txt");
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoScanner(RUTADESTINOS);
 
             for(String linea : lineas) {
                 String[] datos = linea.split("¡");
@@ -179,7 +200,7 @@ public class AgenciaUQ {
     private void escribirDestinos(Destino destino) {
         try{
             String linea = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
-            ArchivoUtils.escribirArchivoBufferedWriter("src/main/resources/Data/destinos.txt", List.of(linea), true);
+            ArchivoUtils.escribirArchivoBufferedWriter(RUTADESTINOS, List.of(linea), true);
         } catch (IOException e) {
             log.severe(e.getMessage());
         }
@@ -202,7 +223,7 @@ public class AgenciaUQ {
      */
     public void leerGuias() throws IOException {
         try {
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaGuias);
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAGUIAS);
             for (String linea : lineas){
                 String[] val = linea.split(";");
                 this.guias.add(GuiaTuristico.builder()
@@ -213,22 +234,43 @@ public class AgenciaUQ {
                         .calificacion(Double.parseDouble(val[4])).build());
             }
         }catch (IOException e){
-            e.getMessage();
+            log.severe(e.getMessage());
         }
     }
 
     public static ArrayList<String> leerGuiasNombres() throws IOException {
         ArrayList<String> nombres = null;
         try {
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaGuias);
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAGUIAS);
             nombres = new ArrayList<>();
             for (String linea : lineas) {
                 String[] val = linea.split(";");
                 nombres.add(val[0]);
             }
         } catch (IOException e) {
-            e.getMessage();
+            log.severe(e.getMessage());
         }
         return nombres;
+    }
+
+    public void añadirPaquete(String nombrePaquete, String descripcionPaquete, LocalDate fechaInicial, LocalDate fechaFinal, ArrayList<Destino> destinos) throws AtributoVacioException, IOException {
+        if(nombrePaquete == null || nombrePaquete.isEmpty() ) {
+            throw new AtributoVacioException("El nombre del paquete no puede estar vacio");
+        }
+        if(descripcionPaquete == null || descripcionPaquete.isEmpty() ) {
+            throw new AtributoVacioException("La descripcion del paquete no puede estar vacia");
+        }
+        if(fechaInicial == null) {
+            throw new AtributoVacioException("La fecha inicial no puede estar vacia");
+        }
+        if(fechaFinal == null) {
+            throw new AtributoVacioException("La fecha final no puede estar vacia");
+        }
+        if(destinos == null || destinos.isEmpty()) {
+            throw new AtributoVacioException("El destino no puede estar vacio");
+        }
+        PaqueteTuristico paquete = PaqueteTuristico.builder().nombre(nombrePaquete).adicionales(descripcionPaquete).fechaInicio(fechaInicial).fechaFin(fechaFinal).destinoArrayList(destinos).build();
+        paquetes.add(paquete);
+        ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
     }
 }
