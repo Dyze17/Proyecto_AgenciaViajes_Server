@@ -11,20 +11,17 @@ import java.util.ResourceBundle;
 
 public class PrincipalController implements Initializable {
     private static PrincipalController instance;
-
     public static PrincipalController getInstance() {
         if (instance == null) {
             instance = new PrincipalController();
         }
         return instance;
     }
-
+    public Button botonModificarPerfil;
+    public Button botonReservas;
     public Button botonIniciar;
     public Button botonGestion;
     public Button botonBuscador;
-
-    public Button btnModificarPerfil;
-
     public AnchorPane panelFormulario;
 
     @Override
