@@ -1,13 +1,14 @@
 package Controladores;
 
+import App.AgenciaUQApp;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -25,12 +26,34 @@ public class PrincipalController implements Initializable {
     public Button botonIniciar;
     public Button botonGestion;
     public Button botonBuscador;
+
+    public Button btnModificarPerfil;
+
     @FXML
     public AnchorPane panelFormulario;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
+    }
+
+    @FXML
+    public void showReserva() {
+        try {
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva2.fxml")));
+            panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void showModificar (){
+        try {
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Modificar.fxml")));
+            panelFormulario.getChildren().setAll(node);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void mostrarGestion() {

@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controladores.ReservaAgregarController"
-            prefHeight="327.0" prefWidth="299.0">
+<AnchorPane prefHeight="398.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ReservaAgregarController">
+    <children>
+        <Pane layoutX="-1.0" layoutY="31.0" prefHeight="52.0" prefWidth="419.0" style="-fx-background-color: #4B5F83;">
+            <children>
+                <Label layoutX="112.0" layoutY="16.0" text="Agregar nueva reserva" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="18.0" />
+                    </font>
+                </Label>
+            <ImageView fitHeight="43.0" fitWidth="60.0" layoutX="14.0" layoutY="5.0">
+               <image>
+                  <Image url="@../Imagenes/palmera.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="47.0" layoutX="358.0" layoutY="5.0">
+               <image>
+                  <Image url="@../Imagenes/Reserva2.png" />
+               </image>
+            </ImageView>
+            </children>
+        </Pane>
+        <TextField fx:id="txtNombre" layoutX="46.0" layoutY="119.0" prefHeight="31.0" prefWidth="153.0" promptText="Nombre" />
+        <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="10.0" layoutY="120.0">
+            <image>
+                <Image url="@../Imagenes/Nombre.png" />
+            </image>
+        </ImageView>
+        <TextField fx:id="txtDocumento" layoutX="47.0" layoutY="160.0" prefHeight="31.0" prefWidth="153.0" promptText="Documento" />
+        <ImageView fitHeight="21.0" fitWidth="22.0" layoutX="13.0" layoutY="165.0">
+            <image>
+                <Image url="@../Imagenes/ID.png" />
+            </image>
+        </ImageView>
+      <DatePicker fx:id="dateViaje" layoutX="255.0" layoutY="120.0" prefHeight="31.0" prefWidth="153.0" promptText="Fecha de viaje" />
+      <DatePicker fx:id="dateSolicitud" layoutX="255.0" layoutY="160.0" prefHeight="31.0" prefWidth="153.0" promptText="Fecha de solicitud" />
+      <ChoiceBox fx:id="boxGuia" layoutX="46.0" layoutY="205.0" prefHeight="31.0" prefWidth="153.0" />
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="10.0" layoutY="205.0">
+         <image>
+            <Image url="@../Imagenes/lider.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="217.0" layoutY="118.0">
+         <image>
+            <Image url="@../Imagenes/calendario.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="43.0" fitWidth="39.0" layoutX="212.0" layoutY="154.0">
+         <image>
+            <Image url="@../Imagenes/calendario2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="217.0" layoutY="204.0">
+         <image>
+            <Image url="@../Imagenes/personasNum.png" />
+         </image>
+      </ImageView>
+      <ChoiceBox fx:id="boxNumPersonas" layoutX="255.0" layoutY="205.0" prefHeight="31.0" prefWidth="153.0" />
+      <TextField fx:id="txtPaquete" layoutX="46.0" layoutY="251.0" prefHeight="31.0" prefWidth="153.0" promptText="Paquete turistico" />
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="10.0" layoutY="251.0">
+         <image>
+            <Image url="@../Imagenes/Avion2.png" />
+         </image>
+      </ImageView>
+      <ChoiceBox fx:id="boxEstado" layoutX="255.0" layoutY="251.0" prefHeight="31.0" prefWidth="153.0" />
+      <Button fx:id="btnNueva" layoutX="143.0" layoutY="332.0" mnemonicParsing="false" onAction="#showNuevaReserva" text="Nueva reserva" />
+      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="217.0" layoutY="251.0">
+         <image>
+            <Image url="@../Imagenes/estado.png" />
+         </image>
+      </ImageView>
 
+
+    </children>
 </AnchorPane>

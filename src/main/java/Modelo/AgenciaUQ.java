@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
-
+import Enum.Idioma;
 @Log
 public class AgenciaUQ {
     @Getter
@@ -27,6 +27,8 @@ public class AgenciaUQ {
     @Getter
     private final ArrayList<Destino> destinos;
     private String imagen;
+    private ArrayList<GuiaTuristico> guias;
+    private static String rutaGuias = "src/main/resources/Data/guiasTuristicos.txt";
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -191,5 +193,42 @@ public class AgenciaUQ {
         if(archivoSeleccionado != null) {
             imagen = archivoSeleccionado.getAbsolutePath();
         }
+    }
+
+    /**
+     * Se inicializan los guias turisticos que estan en el archivo guiasTuristicos.Txt
+     *
+     * @return
+     */
+    public void leerGuias() throws IOException {
+        try {
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaGuias);
+            for (String linea : lineas){
+                String[] val = linea.split(";");
+                this.guias.add(GuiaTuristico.builder()
+                        .nombre(val[0])
+                        .identificacion(val[1])
+                        .idioma(Idioma.valueOf(val[2]))
+                        .telefono(val[3])
+                        .calificacion(Double.parseDouble(val[4])).build());
+            }
+        }catch (IOException e){
+            e.getMessage();
+        }
+    }
+
+    public static ArrayList<String> leerGuiasNombres() throws IOException {
+        ArrayList<String> nombres = null;
+        try {
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaGuias);
+            nombres = new ArrayList<>();
+            for (String linea : lineas) {
+                String[] val = linea.split(";");
+                nombres.add(val[0]);
+            }
+        } catch (IOException e) {
+            e.getMessage();
+        }
+        return nombres;
     }
 }

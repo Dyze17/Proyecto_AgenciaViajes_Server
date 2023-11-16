@@ -29,6 +29,22 @@ import java.util.Scanner;
 public class ArchivoUtils {
 
     /**
+     * Permite leer un archivo de propiedades desde una ruta específica
+     * @param ruta Ruta del archivo de propiedades
+     * @return Objeto Properties con los datos del archivo
+     * @throws IOException
+     */
+    public static Properties leerPropiedades(String ruta) throws IOException{
+        Properties prop = new Properties();
+        FileInputStream fis = new FileInputStream(ruta);
+        prop.load(fis);
+        fis.close();
+
+        return prop;
+    }
+
+
+    /**
      * Permite leer un archivo desde una ruta específica mediante Scanner
      * @param ruta Ruta a leer
      * @return Lista de String por cada línea del archivo

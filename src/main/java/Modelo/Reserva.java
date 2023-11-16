@@ -1,6 +1,8 @@
 package Modelo;
 
 import lombok.*;
+import Enum.EstadoReserva;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -8,9 +10,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Reserva {
-    private String fechaSolicitud;
-    private String fechaViaje;
+    private LocalDate fechaSolicitud;
+    private LocalDate fechaViaje;
     private String idCliente;
     private short numPersonas;
     private PaqueteTuristico paqueteTuristico;
+    private Cliente cliente;
+    private GuiaTuristico guia; //opcional
+    private EstadoReserva estado;
 }
