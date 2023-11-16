@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class Reserva2Controller implements Initializable {
+public class ReservaController implements Initializable {
 
     @FXML
     private Button btnAgregar;

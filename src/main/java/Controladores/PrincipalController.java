@@ -1,12 +1,8 @@
 package Controladores;
 
-import App.AgenciaUQApp;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import java.net.URL;
@@ -29,7 +25,6 @@ public class PrincipalController implements Initializable {
 
     public Button btnModificarPerfil;
 
-    @FXML
     public AnchorPane panelFormulario;
 
     @Override
@@ -37,10 +32,9 @@ public class PrincipalController implements Initializable {
         instance = this;
     }
 
-    @FXML
     public void showReserva() {
         try {
-            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva2.fxml")));
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva.fxml")));
             panelFormulario.getChildren().setAll(node);
         } catch (Exception e) {
             System.out.println(e.getMessage());
