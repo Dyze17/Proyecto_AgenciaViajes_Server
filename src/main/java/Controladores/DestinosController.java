@@ -66,7 +66,7 @@ public class DestinosController implements Initializable {
 
     public void agregarDestino() {
         try{
-            Destino destino = agenciaUQ.agregarDestino(
+            agenciaUQ.agregarDestino(
                     paisField.getText(),
                     ciudadField.getText(),
                     climaBox.getValue(),
