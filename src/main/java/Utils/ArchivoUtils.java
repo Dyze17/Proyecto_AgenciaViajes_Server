@@ -171,18 +171,4 @@ public class ArchivoUtils {
 
         return objeto;
     }
-
-    public static void actualizarLineaEnArchivo(String rutaArchivo, String lineaAntigua, String nuevaLinea) throws IOException {
-        Path archivoPath = Path.of(rutaArchivo);
-        List<String> lineas = Files.readAllLines(archivoPath);
-
-        for (int i = 0; i < lineas.size(); i++) {
-            if (lineas.get(i).equals(lineaAntigua)) {
-                lineas.set(i, nuevaLinea);
-                break;  // Salir del bucle después de encontrar y actualizar la línea
-            }
-        }
-        // Escribir las líneas actualizadas en el archivo
-        Files.write(archivoPath, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-    }
 }
