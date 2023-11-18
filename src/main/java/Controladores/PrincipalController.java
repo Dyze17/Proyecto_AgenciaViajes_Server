@@ -1,8 +1,11 @@
 package Controladores;
 
+import Utils.ArchivoUtils;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import java.net.URL;
@@ -29,9 +32,10 @@ public class PrincipalController implements Initializable {
         instance = this;
     }
 
+    @FXML
     public void showReserva() {
         try {
-            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva.fxml")));
+            Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Reserva2.fxml")));
             panelFormulario.getChildren().setAll(node);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -40,6 +44,7 @@ public class PrincipalController implements Initializable {
 
     public void showModificar (){
         try {
+            ArchivoUtils.mostrarMensaje("Alerta", "Modificacion de perfil", "Para poder modificar tu perfil, la identificacion debe ser la misma con la que te registraste", Alert.AlertType.INFORMATION);
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/Modificar.fxml")));
             panelFormulario.getChildren().setAll(node);
         } catch (Exception e) {
