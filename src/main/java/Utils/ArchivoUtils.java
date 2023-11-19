@@ -1,5 +1,7 @@
 package Utils;
 
+import javafx.scene.control.Alert;
+
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedReader;
@@ -170,5 +172,35 @@ public class ArchivoUtils {
         decoder.close();
 
         return objeto;
+    }
+
+    public static void actualizarLineaEnArchivo(String rutaArchivo, String lineaAntigua, String nuevaLinea) throws IOException {
+        Path archivoPath = Path.of(rutaArchivo);
+        List<String> lineas = Files.readAllLines(archivoPath);
+
+        for (int i = 0; i < lineas.size(); i++) {
+            if (lineas.get(i).equals(lineaAntigua)) {
+                lineas.set(i, nuevaLinea);
+                break;  // Salir del bucle después de encontrar y actualizar la línea
+            }
+        }
+        // Escribir las líneas actualizadas en el archivo
+        Files.write(archivoPath, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    /**
+     * Ventana emergente
+     * @param titulo
+     * @param header
+     * @param contenido
+     * @param alertType
+     */
+
+    public static void mostrarMensaje(String titulo, String header, String contenido, Alert.AlertType alertType){
+        Alert alert = new Alert(alertType);
+        alert.setTitle(titulo);
+        alert.setHeaderText(header);
+        alert.setContentText(contenido);
+        alert.showAndWait();
     }
 }
