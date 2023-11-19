@@ -1,7 +1,6 @@
 package Modelo;
 
 import Controladores.IniciarSesionController;
-import Controladores.PrincipalController;
 import Exceptions.AtributoVacioException;
 import Exceptions.CupoInvalidoException;
 import Exceptions.ErrorGuardarCambios;
@@ -11,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.extern.java.Log;
-
+import java.util.Optional;
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -46,8 +45,6 @@ public class AgenciaUQ {
     private static final String RUTADESTINOS = "src/main/resources/Data/destinos.txt";
     private static final String RUTAPAQUETES = "src/main/resources/Data/paquetes.ser";
     private static final String RUTAGUIAS = "src/main/resources/Data/guiasTuristicos.txt";
-    private static String rutaPaqueteTuristico = "src/main/resources/Data/paqueteTuristico.txt";
-    private static String rutaUsuario = "src/main/resources/Data/users.txt";
 
     private static final Logger LOGGER = Logger.getLogger(AgenciaUQ.class.getName());
 
@@ -255,28 +252,6 @@ public class AgenciaUQ {
         }
     }
 
-    /**
-     * Se inicializan los guias turisticos que estan en el archivo guiasTuristicos.Txt
-     *
-     * @return
-     */
-    public void leerGuias() throws IOException {
-        try {
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAGUIAS);
-            for (String linea : lineas) {
-                String[] val = linea.split(";");
-                this.guias.add(GuiaTuristico.builder()
-                        .nombre(val[0])
-                        .identificacion(val[1])
-                        .idioma(Idioma.valueOf(val[2]))
-                        .telefono(val[3])
-                        .calificacion(Double.parseDouble(val[4])).build());
-            }
-        } catch (IOException e) {
-            log.severe(e.getMessage());
-        }
-    }
-
     public static ArrayList<String> leerGuiasNombres() throws IOException {
         ArrayList<String> nombres = null;
         try {
@@ -362,12 +337,6 @@ public class AgenciaUQ {
             if(credencialesCorrectos) {
                 JOptionPane.showMessageDialog(null, "Bienvenido");
                 IniciarSesionController.iniciado = true;
-                try {
-                    Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/SesionIniciada.fxml")));
-                    PrincipalController.getInstance().panelFormulario.getChildren().setAll(node);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
             }
@@ -457,29 +426,13 @@ public class AgenciaUQ {
     public static ArrayList<String> leerNombresPaquetesTuristicos() throws IOException {
         ArrayList<String> nombres = new ArrayList<>();
         try {
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaPaqueteTuristico);
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAPAQUETES);
             for (String linea : lineas) {
                 String[] val = linea.split(";");
                 nombres.add(val[0]);
             }
         } catch (IOException e) {e.getMessage();}
         return nombres;
-    }
-
-    public void leerUsuarios() throws IOException {
-        try {
-            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaUsuario);
-            for (String linea : lineas){
-                String[] val = linea.split(";");
-                this.clientes.add(Cliente.builder()
-                        .cedula(val[0])
-                        .nombreCompleto(val[1])
-                        .correo(val[2])
-                        .telefono(val[3])
-                        .direccion(val[4])
-                        .contraseña(val[5]).build());
-            }
-        }catch (IOException e){e.getMessage();}
     }
 
     public Cliente clienteEnLista(String nombreCliente) {
@@ -543,7 +496,7 @@ public class AgenciaUQ {
                     .correo(nuevoCorreo)
                     .telefono(nuevoTelefono)
                     .direccion(nuevaDireccion)
-                    .contraseña(nuevaContraseña)
+                    .clave(nuevaContraseña)
                     .build();
 
             // Guardar la lista actualizada de clientes
