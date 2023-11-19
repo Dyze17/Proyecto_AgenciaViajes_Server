@@ -1,5 +1,7 @@
 package Utils;
 
+import javafx.scene.control.Alert;
+
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedReader;
@@ -185,4 +187,22 @@ public class ArchivoUtils {
         // Escribir las líneas actualizadas en el archivo
         Files.write(archivoPath, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
     }
+
+    /**
+     * Ventana emergente
+     * @param titulo
+     * @param header
+     * @param contenido
+     * @param alertType
+     */
+
+    public static void mostrarMensaje(String titulo, String header, String contenido, Alert.AlertType alertType){
+        Alert alert = new Alert(alertType);
+        alert.setTitle(titulo);
+        alert.setHeaderText(header);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+
+
 }

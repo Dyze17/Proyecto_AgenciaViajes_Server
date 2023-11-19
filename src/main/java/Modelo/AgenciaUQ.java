@@ -1,7 +1,11 @@
 package Modelo;
 
 import Exceptions.AtributoVacioException;
+import Exceptions.CupoInvalidoException;
+import Exceptions.ErrorGuardarCambios;
+import Exceptions.FechaNoValidaException;
 import Utils.ArchivoUtils;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.extern.java.Log;
@@ -18,10 +22,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import Enum.Idioma;
+import Enum.EstadoReserva;
 @Log
 public class AgenciaUQ {
     @Getter
@@ -29,13 +37,21 @@ public class AgenciaUQ {
     @Getter
     private final ArrayList<Destino> destinos;
     @Getter
+    private ArrayList<Reserva> reservas;
+    @Getter
     private final ArrayList<PaqueteTuristico> paquetes;
+    @Getter
+    public ArrayList<Cliente> clientes;
     private String imagen;
     private ArrayList<GuiaTuristico> guias;
     private static final String RUTAUSERS = "src/main/resources/Data/users.txt";
     private static final String RUTADESTINOS = "src/main/resources/Data/destinos.txt";
     private static final String RUTAPAQUETES = "src/main/resources/Data/paquetes.ser";
     private static final String RUTAGUIAS = "src/main/resources/Data/guiasTuristicos.txt";
+    private static String rutaPaqueteTuristico = "src/main/resources/Data/paqueteTuristico.txt";
+    private static String rutaUsuario = "src/main/resources/Data/users.txt";
+
+    private static final Logger LOGGER = Logger.getLogger(AgenciaUQ.class.getName());
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -328,5 +344,131 @@ public class AgenciaUQ {
                 }
             }
         }).start();
+    }
+
+
+    public Reserva crearReserva (LocalDate fechaSolicitud, LocalDate fechaViaje, String idCliente, short numPersonas, PaqueteTuristico paqueteTuristico, Cliente cliente, GuiaTuristico guia, EstadoReserva estado) throws AtributoVacioException, FechaNoValidaException, CupoInvalidoException, IOException {
+
+        if(fechaSolicitud.isAfter(fechaViaje)){
+            LOGGER.log( Level.WARNING, "La fecha de solicitud no puede ser después de la fecha de viaje" );
+            throw new FechaNoValidaException("La fecha de sloicitud no puede ser después de la fecha de viaje");
+        }
+
+        if(idCliente == null || idCliente.isBlank()){
+            LOGGER.log( Level.WARNING, "La referencia es obligatoria para el registro" );
+            throw new AtributoVacioException("La referencia es obligatoria");
+        }
+        if(!idCliente.matches("[0-9]+")){
+            LOGGER.log( Level.WARNING, "La referencia no puede ser numérica" );
+            throw new AtributoVacioException("La referencia no puede ser numérica");
+        }
+
+        Reserva reserva = Reserva.builder()
+                .fechaSolicitud(fechaSolicitud)
+                .fechaViaje(fechaViaje)
+                .idCliente(idCliente)
+                .numPersonas(numPersonas)
+                .paqueteTuristico(paqueteTuristico)
+                .cliente(cliente)
+                .guia(guia)
+                .estado(estado)
+                .build();
+
+        reservas.add(reserva);
+        ArchivoUtils.escribirArchivoFormatter("src/main/resources/Data/reservas.data", null);
+
+        ArchivoUtils.mostrarMensaje("Informe", "", "Se ha agregado la reserva correctamente", Alert.AlertType.INFORMATION);
+        LOGGER.log(Level.INFO, "Se ha registrado una nueva reserva del cliente: "+cliente);
+        return reserva;
+    }
+
+    public static ArrayList<String> leerNombresPaquetesTuristicos() throws IOException {
+        ArrayList<String> nombres = new ArrayList<>();
+        try {
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaPaqueteTuristico);
+            for (String linea : lineas) {
+                String[] val = linea.split(";");
+                nombres.add(val[0]);
+            }
+        } catch (IOException e) {e.getMessage();}
+        return nombres;
+    }
+
+    public void leerUsuarios() throws IOException {
+        try {
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(rutaUsuario);
+            for (String linea : lineas){
+                String[] val = linea.split(";");
+                this.clientes.add(Cliente.builder()
+                        .cedula(val[0])
+                        .nombreCompleto(val[1])
+                        .correo(val[2])
+                        .telefono(val[3])
+                        .direccion(val[4])
+                        .contraseña(val[5]).build());
+            }
+        }catch (IOException e){e.getMessage();}
+    }
+
+    public Cliente clienteEnLista(String nombreCliente) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getNombreCompleto().equals(nombreCliente)) return cliente;
+        }
+        return null;
+    }
+
+    public GuiaTuristico obtenerGuiaPorNombre(String nombreGuia) {
+        for (GuiaTuristico guia : guias) {
+            if (guia.getNombre().equals(nombreGuia)) {
+                return guia;
+            }
+        }
+        return null;
+    }
+
+    public PaqueteTuristico obtenerPaquetePorNombre(String nombrePaquete) {
+        for (PaqueteTuristico paquete : paquetes) {
+            if (paquete.getNombre().equals(nombrePaquete)) {
+                return paquete;
+            }
+        }
+        return null;
+    }
+
+    public boolean obtenerClienteCedula(String documento) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getCedula().equals(documento)) return true;
+        }
+        return false;
+    }
+
+    public Cliente modificarUsuario(String cedula, String nuevoNombre, String nuevoCorreo, String nuevoTelefono, String nuevaDireccion, String nuevaContraseña) throws IOException, ErrorGuardarCambios, ClassNotFoundException {
+
+        // Obtener la lista actualizada de clientes
+        ArrayList<Cliente> listaClientes = (ArrayList<Cliente>) ArchivoUtils.deserializarObjeto("src/main/resources/Data/users.data");
+        Optional<Cliente> clienteOptional = listaClientes.stream()
+                .filter(cliente -> cliente.getCedula().equals(cedula))
+                .findFirst();
+
+        if (clienteOptional.isPresent()) {
+            Cliente cliente = Cliente.builder()
+                    .cedula(cedula)
+                    .nombreCompleto(nuevoNombre)
+                    .correo(nuevoCorreo)
+                    .telefono(nuevoTelefono)
+                    .direccion(nuevaDireccion)
+                    .contraseña(nuevaContraseña)
+                    .build();
+
+            // Guardar la lista actualizada de clientes
+            ArchivoUtils.escribirArchivoFormatter("src/main/resources/Data/users.data", null);
+            ArchivoUtils.mostrarMensaje("Informe", "", "Se ha modificado el usuario correctamente", Alert.AlertType.INFORMATION);
+            LOGGER.log(Level.INFO, "Se ha modificado el usuario con cédula: " + cedula);
+
+            return cliente;
+        } else {
+            ArchivoUtils.mostrarMensaje("Error", "Cliente no encontrado", "No se encontró ningún cliente con la cédula proporcionada.", Alert.AlertType.ERROR);
+            throw new ErrorGuardarCambios("No se encontró ningún cliente con la cédula proporcionada.");
+        }
     }
 }
