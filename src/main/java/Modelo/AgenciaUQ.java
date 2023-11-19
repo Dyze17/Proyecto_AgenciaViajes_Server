@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
-import Enum.Idioma;
+
 import Enum.EstadoReserva;
 @Log
 public class AgenciaUQ {
@@ -39,7 +39,6 @@ public class AgenciaUQ {
     private final ArrayList<PaqueteTuristico> paquetes;
     @Getter
     private final ArrayList<Cliente> clientes;
-    private String imagen;
     private ArrayList<GuiaTuristico> guias;
     private static final String RUTAUSERS = "src/main/resources/Data/users.txt";
     private static final String RUTADESTINOS = "src/main/resources/Data/destinos.txt";
@@ -165,7 +164,14 @@ public class AgenciaUQ {
                 nuevo.setCiudad(ciudad);
                 nuevo.setDescripcion(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
                 nuevo.setClima(JOptionPane.showInputDialog("Ingrese el nuevo clima"));
-                seleccionarImagen();
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Seleccionar imagen");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
+                File archivoSeleccionado = fileChooser.showOpenDialog(null);
+                String imagen = "";
+                if (archivoSeleccionado != null) {
+                    imagen = archivoSeleccionado.getAbsolutePath();
+                }
                 nuevo.setImagen(imagen);
                 editarDestino(destino, nuevo);
                 break;
@@ -240,16 +246,6 @@ public class AgenciaUQ {
                 }
             }
         }).start();
-    }
-
-    private void seleccionarImagen() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar imagen");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
-        File archivoSeleccionado = fileChooser.showOpenDialog(null);
-        if (archivoSeleccionado != null) {
-            imagen = archivoSeleccionado.getAbsolutePath();
-        }
     }
 
     public static ArrayList<String> leerGuiasNombres() throws IOException {
@@ -388,7 +384,7 @@ public class AgenciaUQ {
         return false;
     }
 
-    public Reserva crearReserva (LocalDate fechaSolicitud, LocalDate fechaViaje, String idCliente, short numPersonas, PaqueteTuristico paqueteTuristico, Cliente cliente, GuiaTuristico guia, EstadoReserva estado) throws AtributoVacioException, FechaNoValidaException, CupoInvalidoException, IOException {
+    public void crearReserva (LocalDate fechaSolicitud, LocalDate fechaViaje, String idCliente, short numPersonas, PaqueteTuristico paqueteTuristico, Cliente cliente, GuiaTuristico guia, EstadoReserva estado) throws AtributoVacioException, FechaNoValidaException, CupoInvalidoException, IOException {
 
         if(fechaSolicitud.isAfter(fechaViaje)){
             LOGGER.log( Level.WARNING, "La fecha de solicitud no puede ser después de la fecha de viaje" );
@@ -420,7 +416,6 @@ public class AgenciaUQ {
 
         ArchivoUtils.mostrarMensaje("Informe", "", "Se ha agregado la reserva correctamente", Alert.AlertType.INFORMATION);
         LOGGER.log(Level.INFO, "Se ha registrado una nueva reserva del cliente: "+cliente);
-        return reserva;
     }
 
     public static ArrayList<String> leerNombresPaquetesTuristicos() throws IOException {
@@ -481,7 +476,7 @@ public class AgenciaUQ {
         }
     }
   
-    public Cliente modificarUsuario(String cedula, String nuevoNombre, String nuevoCorreo, String nuevoTelefono, String nuevaDireccion, String nuevaContraseña) throws IOException, ErrorGuardarCambios, ClassNotFoundException {
+    public void modificarUsuario(String cedula, String nuevoNombre, String nuevoCorreo, String nuevoTelefono, String nuevaDireccion, String nuevaContraseña) throws IOException, ErrorGuardarCambios, ClassNotFoundException {
 
         // Obtener la lista actualizada de clientes
         ArrayList<Cliente> listaClientes = (ArrayList<Cliente>) ArchivoUtils.deserializarObjeto("src/main/resources/Data/users.data");
@@ -504,7 +499,6 @@ public class AgenciaUQ {
             ArchivoUtils.mostrarMensaje("Informe", "", "Se ha modificado el usuario correctamente", Alert.AlertType.INFORMATION);
             LOGGER.log(Level.INFO, "Se ha modificado el usuario con cédula: " + cedula);
 
-            return cliente;
         } else {
             ArchivoUtils.mostrarMensaje("Error", "Cliente no encontrado", "No se encontró ningún cliente con la cédula proporcionada.", Alert.AlertType.ERROR);
             throw new ErrorGuardarCambios("No se encontró ningún cliente con la cédula proporcionada.");
