@@ -1,5 +1,7 @@
 package Modelo;
 
+import Controladores.IniciarSesionController;
+import Controladores.PrincipalController;
 import Exceptions.AtributoVacioException;
 import Exceptions.CupoInvalidoException;
 import Exceptions.ErrorGuardarCambios;
@@ -11,10 +13,7 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +39,7 @@ public class AgenciaUQ {
     @Getter
     private final ArrayList<PaqueteTuristico> paquetes;
     @Getter
-    public ArrayList<Cliente> clientes;
+    private final ArrayList<Cliente> clientes;
     private String imagen;
     private ArrayList<GuiaTuristico> guias;
     private static final String RUTAUSERS = "src/main/resources/Data/users.txt";
@@ -66,21 +64,24 @@ public class AgenciaUQ {
         } catch (IOException | ClassNotFoundException e) {
             log.severe(e.getMessage());
         }
+
+        this.clientes = new ArrayList<>();
+        leerClientes();
     }
 
-    private void inicializarLogger(){
+    private void inicializarLogger() {
         try {
             FileHandler fh = new FileHandler("logs.log", true);
-            fh.setFormatter( new SimpleFormatter());
+            fh.setFormatter(new SimpleFormatter());
             log.addHandler(fh);
-        }catch (IOException e){
-            log.severe(e.getMessage() );
+        } catch (IOException e) {
+            log.severe(e.getMessage());
         }
     }
 
     //El singleton de la clase AgenciaUQApp
-    public static AgenciaUQ getInstance(){
-        if(agenciaUQ == null){
+    public static AgenciaUQ getInstance() {
+        if (agenciaUQ == null) {
             agenciaUQ = new AgenciaUQ();
         }
         return agenciaUQ;
@@ -249,7 +250,7 @@ public class AgenciaUQ {
         fileChooser.setTitle("Seleccionar imagen");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
         File archivoSeleccionado = fileChooser.showOpenDialog(null);
-        if(archivoSeleccionado != null) {
+        if (archivoSeleccionado != null) {
             imagen = archivoSeleccionado.getAbsolutePath();
         }
     }
@@ -262,7 +263,7 @@ public class AgenciaUQ {
     public void leerGuias() throws IOException {
         try {
             ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAGUIAS);
-            for (String linea : lineas){
+            for (String linea : lineas) {
                 String[] val = linea.split(";");
                 this.guias.add(GuiaTuristico.builder()
                         .nombre(val[0])
@@ -271,7 +272,7 @@ public class AgenciaUQ {
                         .telefono(val[3])
                         .calificacion(Double.parseDouble(val[4])).build());
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             log.severe(e.getMessage());
         }
     }
@@ -309,7 +310,7 @@ public class AgenciaUQ {
                 } catch (IOException e) {
                     log.severe(e.getMessage());
                 }
-                log.info("Paquete '" +nombrePaquete +"' agregado correctamente");
+                log.info("Paquete '" + nombrePaquete + "' agregado correctamente");
                 JOptionPane.showMessageDialog(null, "Paquete agregado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }).start();
@@ -329,13 +330,13 @@ public class AgenciaUQ {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for(PaqueteTuristico paquete : paquetes) {
-                    if(paquete.getNombre().equals(nombre)) {
+                for (PaqueteTuristico paquete : paquetes) {
+                    if (paquete.getNombre().equals(nombre)) {
                         paquetes.remove(paquete);
                         try {
                             ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
                             JOptionPane.showMessageDialog(null, "Paquete eliminado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                            log.info("Paquete '" +nombre +"' eliminado correctamente");
+                            log.info("Paquete '" + nombre + "' eliminado correctamente");
                         } catch (IOException e) {
                             log.severe(e.getMessage());
                         }
@@ -346,6 +347,77 @@ public class AgenciaUQ {
         }).start();
     }
 
+    public void iniciarSesion(String usuario, String clave) {
+        try(BufferedReader br = new BufferedReader(new FileReader(RUTAUSERS))) {
+            String line;
+            boolean credencialesCorrectos = false;
+            while((line = br.readLine()) != null) {
+                String[] datos = line.split(",");
+                if (datos.length >= 3 && datos[2].trim().equals(usuario) && datos[0].trim().equals(clave)) {
+                    credencialesCorrectos = true;
+                    IniciarSesionController.administrador = datos[6].equalsIgnoreCase("administrador");
+                    break;
+                }
+            }
+            if(credencialesCorrectos) {
+                JOptionPane.showMessageDialog(null, "Bienvenido");
+                IniciarSesionController.iniciado = true;
+                try {
+                    Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Interfaces/SesionIniciada.fxml")));
+                    PrincipalController.getInstance().panelFormulario.getChildren().setAll(node);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+            }
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+    }
+
+    public void registrarUsuario(String clave, String nombre, String documento, String email, String celular, String direccion, String rolSeleccionado) throws IOException {
+        if (clave == null || clave.isEmpty() || nombre == null || nombre.isEmpty() || documento == null || documento.isEmpty() || email == null || email.isEmpty() || celular == null || celular.isEmpty() || direccion == null || direccion.isEmpty() || rolSeleccionado == null || rolSeleccionado.isEmpty()) {
+            try {
+                throw new AtributoVacioException("Todos los atributos deben tener valores");
+            } catch (AtributoVacioException e) {
+                log.severe(e.getMessage());
+            }
+        }
+        if (encontrarDocumentoExistente(documento)) {
+            JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese documento");
+        } else {
+            Cliente cliente = Cliente.builder().clave(clave).nombreCompleto(nombre).cedula(documento).correo(email).telefono(celular).direccion(direccion).rol(rolSeleccionado).build();
+            clientes.add(cliente);
+            escribirUsuario(cliente);
+            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+            log.info("Usuario '" + cliente.getNombreCompleto() + "' registrado correctamente");
+        }
+    }
+
+    private void escribirUsuario(Cliente cliente) {
+        try {
+            String linea = cliente.getClave() + "," + cliente.getNombreCompleto() + "," + cliente.getCedula() + "," + cliente.getCorreo() + "," + cliente.getTelefono() + "," + cliente.getDireccion() + "," + cliente.getRol();
+            ArchivoUtils.escribirArchivoBufferedWriter(RUTAUSERS, List.of(linea), true);
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+    }
+
+    private boolean encontrarDocumentoExistente(String documento) {
+        try (BufferedReader br = new BufferedReader(new FileReader(RUTAUSERS))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                String[] datos = line.split(",");
+                if (datos.length > 2 && datos[2].trim().equals(documento.trim())) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+        return false;
+    }
 
     public Reserva crearReserva (LocalDate fechaSolicitud, LocalDate fechaViaje, String idCliente, short numPersonas, PaqueteTuristico paqueteTuristico, Cliente cliente, GuiaTuristico guia, EstadoReserva estado) throws AtributoVacioException, FechaNoValidaException, CupoInvalidoException, IOException {
 
@@ -442,6 +514,20 @@ public class AgenciaUQ {
         return false;
     }
 
+    private void leerClientes() {
+        try (BufferedReader br = new BufferedReader(new FileReader(RUTAUSERS))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                String[] datos = line.split(",");
+                if (datos.length > 2 && datos[6].trim().equalsIgnoreCase("cliente")) {
+                    clientes.add(Cliente.builder().clave(datos[0]).nombreCompleto(datos[1]).cedula(datos[2]).correo(datos[3]).telefono(datos[4]).direccion(datos[5]).rol(datos[6]).build());
+                }
+            }
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+    }
+  
     public Cliente modificarUsuario(String cedula, String nuevoNombre, String nuevoCorreo, String nuevoTelefono, String nuevaDireccion, String nuevaContraseña) throws IOException, ErrorGuardarCambios, ClassNotFoundException {
 
         // Obtener la lista actualizada de clientes

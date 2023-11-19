@@ -203,6 +203,4 @@ public class ArchivoUtils {
         alert.setContentText(contenido);
         alert.showAndWait();
     }
-
-
 }

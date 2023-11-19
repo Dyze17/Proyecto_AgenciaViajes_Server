@@ -46,7 +46,7 @@
             <Image url="@../Imagenes/Telefon.png" />
          </image>
       </ImageView>
-      <Button fx:id="registrarBoton" layoutX="326.0" layoutY="350.0" mnemonicParsing="false" onAction="#registrarDatos" prefHeight="25.0" prefWidth="55.0" text="Registrar">
+      <Button fx:id="registrarBoton" layoutX="326.0" layoutY="350.0" mnemonicParsing="false" onAction="#registrar" prefHeight="25.0" prefWidth="55.0" text="Registrar">
          <font>
             <Font size="10.0" />
          </font>
