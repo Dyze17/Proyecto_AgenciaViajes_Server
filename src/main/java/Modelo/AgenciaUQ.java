@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.extern.java.Log;
-import java.util.Optional;
+import Enum.EstadoReserva;
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -20,13 +20,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
-
-import Enum.EstadoReserva;
+import Enum.Idioma;
 @Log
 public class AgenciaUQ {
     @Getter
@@ -34,18 +33,16 @@ public class AgenciaUQ {
     @Getter
     private final ArrayList<Destino> destinos;
     @Getter
-    private ArrayList<Reserva> reservas;
-    @Getter
     private final ArrayList<PaqueteTuristico> paquetes;
     @Getter
     private final ArrayList<Cliente> clientes;
     private ArrayList<GuiaTuristico> guias;
+    @Getter
+    private ArrayList<Reserva> reservas;
     private static final String RUTAUSERS = "src/main/resources/Data/users.txt";
     private static final String RUTADESTINOS = "src/main/resources/Data/destinos.txt";
     private static final String RUTAPAQUETES = "src/main/resources/Data/paquetes.ser";
     private static final String RUTAGUIAS = "src/main/resources/Data/guiasTuristicos.txt";
-
-    private static final Logger LOGGER = Logger.getLogger(AgenciaUQ.class.getName());
 
     private AgenciaUQ() {
         inicializarLogger();
@@ -83,18 +80,11 @@ public class AgenciaUQ {
         return agenciaUQ;
     }
 
-    public void agregarDestino(String pais, String ciudad, String clima, String descripcion, String imagen) throws AtributoVacioException {
+    //Este metodo agrega un destino al arraylist
+    public void agregarDestino(Destino destino) throws AtributoVacioException {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (pais == null || pais.isEmpty() || ciudad == null || ciudad.isEmpty() || clima == null || clima.isEmpty() || descripcion == null || descripcion.isEmpty() || imagen == null || imagen.isEmpty()) {
-                    try {
-                        throw new AtributoVacioException("Todos los atributos deben tener valores");
-                    } catch (AtributoVacioException e) {
-                        log.severe(e.getMessage());
-                    }
-                }
-                Destino destino = Destino.builder().pais(pais).ciudad(ciudad).clima(clima).descripcion(descripcion).imagen(imagen).build();
                 destinos.add(destino);
                 escribirDestinos(destino);
                 log.info("Destino '" + destino.getPais() + " - " + destino.getCiudad() + "' agregado correctamente");
@@ -103,28 +93,20 @@ public class AgenciaUQ {
         }).start();
     }
 
-    public void eliminarDestino(String pais, String ciudad) {
+    //Este metodo borra el destino del arraylist
+    public void eliminarDestino(Destino destino) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                eliminarDestinoRecursivo(destinos.iterator(), pais, ciudad);
+                destinos.remove(destino);
+                borrarDestino(destino);
+                log.info("Destino '" + destino.getPais() + " - " + destino.getCiudad() + "' eliminado correctamente");
+                JOptionPane.showMessageDialog(null, "Destino eliminado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }).start();
     }
 
-    private void eliminarDestinoRecursivo(Iterator<Destino> iterator, String pais, String ciudad) {
-        if (iterator.hasNext()) {
-            Destino destino = iterator.next();
-            if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
-                iterator.remove();
-                borrarDestino(destino);
-                eliminarDestinoRecursivo(iterator, pais, ciudad);
-            } else {
-                eliminarDestinoRecursivo(iterator, pais, ciudad);
-            }
-        }
-    }
-
+    //Este metodo borra el destino del archivo plano
     private void borrarDestino(Destino destino) {
         String filePath = RUTADESTINOS;
         String lineToRemove = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
@@ -156,29 +138,38 @@ public class AgenciaUQ {
         }).start();
     }
 
-    public void actualizarDestino(String pais, String ciudad) {
-        for (Destino destino : destinos) {
-            if (destino.getPais().equals(pais) && destino.getCiudad().equals(ciudad)) {
-                Destino nuevo = new Destino();
-                nuevo.setPais(pais);
-                nuevo.setCiudad(ciudad);
-                nuevo.setDescripcion(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
-                nuevo.setClima(JOptionPane.showInputDialog("Ingrese el nuevo clima"));
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Seleccionar imagen");
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
-                File archivoSeleccionado = fileChooser.showOpenDialog(null);
-                String imagen = "";
-                if (archivoSeleccionado != null) {
-                    imagen = archivoSeleccionado.getAbsolutePath();
+    //Este metodo actualiza el destino en el arraylist
+    public void actualizarDestino(Destino destin) {
+        new Thread (new Runnable() {
+            @Override
+            public void run() {
+                for (Destino destino : destinos) {
+                    if (destino.getPais().equals(destin.getPais()) && destino.getCiudad().equals(destin.getCiudad())) {
+                        Destino nuevo = new Destino();
+                        nuevo.setPais(destin.getPais());
+                        nuevo.setCiudad(destin.getCiudad());
+                        nuevo.setDescripcion(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
+                        nuevo.setClima(JOptionPane.showInputDialog("Ingrese el nuevo clima"));
+
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Seleccionar imagen");
+                        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg"));
+                        File archivoSeleccionado = fileChooser.showOpenDialog(null);
+
+                        String imagen = "";
+                        if (archivoSeleccionado != null) {
+                            imagen = archivoSeleccionado.getAbsolutePath();
+                        }
+                        nuevo.setImagen(imagen);
+                        editarDestino(destino, nuevo);
+                        break;
+                    }
                 }
-                nuevo.setImagen(imagen);
-                editarDestino(destino, nuevo);
-                break;
             }
-        }
+        }).start();
     }
 
+    //Este metodo actualiza el destino del archivo plano
     public void editarDestino(Destino destino, Destino nuevo) {
         String filePath = RUTADESTINOS;
         String lineToReplace = destino.getPais() + "¡" + destino.getCiudad() + "¡" + destino.getDescripcion() + "¡" + destino.getClima() + "¡" + destino.getImagen();
@@ -216,6 +207,7 @@ public class AgenciaUQ {
         }).start();
     }
 
+    //Este metodo lee los destinos del archivo plano
     private void leerDestinos() {
         new Thread(new Runnable() {
             @Override
@@ -234,6 +226,7 @@ public class AgenciaUQ {
         }).start();
     }
 
+    //Este metodo escribe los destinos en el archivo plano
     private void escribirDestinos(Destino destino) {
         new Thread(new Runnable() {
             @Override
@@ -246,6 +239,28 @@ public class AgenciaUQ {
                 }
             }
         }).start();
+    }
+
+    /**
+     * Se inicializan los guias turisticos que estan en el archivo guiasTuristicos.Txt
+     *
+     * @return
+     */
+    public void leerGuias() throws IOException {
+        try {
+            ArrayList<String> lineas = ArchivoUtils.leerArchivoBufferedReader(RUTAGUIAS);
+            for (String linea : lineas){
+                String[] val = linea.split(";");
+                this.guias.add(GuiaTuristico.builder()
+                        .nombre(val[0])
+                        .identificacion(val[1])
+                        .idioma(Idioma.valueOf(val[2]))
+                        .telefono(val[3])
+                        .calificacion(Double.parseDouble(val[4])).build());
+            }
+        }catch (IOException e){
+            log.severe(e.getMessage());
+        }
     }
 
     public static ArrayList<String> leerGuiasNombres() throws IOException {
@@ -263,51 +278,57 @@ public class AgenciaUQ {
         return nombres;
     }
 
-    public void añadirPaquete(String nombrePaquete, String descripcionPaquete, LocalDate fechaInicial, LocalDate fechaFinal, ArrayList<Destino> destinos) throws AtributoVacioException, IOException {
+    //Este metodo añade un paquete al arraylist correspondiente
+    public void añadirPaquete(PaqueteTuristico paquete) throws AtributoVacioException, IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (nombrePaquete == null || nombrePaquete.isEmpty() || descripcionPaquete == null || descripcionPaquete.isEmpty() || fechaInicial == null || fechaFinal == null || destinos == null || destinos.isEmpty()) {
-                    try {
-                        throw new AtributoVacioException("Uno o más atributos están vacíos o nulos");
-                    } catch (AtributoVacioException e) {
-                        log.severe(e.getMessage());
-                    }
-                }
-                PaqueteTuristico paquete = PaqueteTuristico.builder().nombre(nombrePaquete).adicionales(descripcionPaquete).fechaInicio(fechaInicial).fechaFin(fechaFinal).destinoArrayList(destinos).build();
                 paquetes.add(paquete);
                 try {
                     ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
                 } catch (IOException e) {
                     log.severe(e.getMessage());
                 }
-                log.info("Paquete '" + nombrePaquete + "' agregado correctamente");
+                log.info("Paquete '" +paquete.getNombre() +"' agregado correctamente");
                 JOptionPane.showMessageDialog(null, "Paquete agregado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }).start();
     }
 
-    public void actualizarPaquete(String nombre) throws IOException {
-        for (PaqueteTuristico paquete : paquetes) {
-            if (paquete.getNombre().equals(nombre)) {
-                paquete.setAdicionales(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
-                ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
-                break;
-            }
-        }
-    }
-
-    public void eliminarPaquete(String nombre) throws IOException {
+    //Este metodo edita un paquete en su arraylist correspondiente
+    public void actualizarPaquete(PaqueteTuristico paquet) throws IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 for (PaqueteTuristico paquete : paquetes) {
-                    if (paquete.getNombre().equals(nombre)) {
+                    if (paquete.getNombre().equals(paquet.getNombre())) {
+                        paquete.setAdicionales(JOptionPane.showInputDialog("Ingrese la nueva descripcion"));
+                        JOptionPane.showMessageDialog(null, "Paquete actualizado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        log.info("Paquete '" +paquet.getNombre() +"' actualizado correctamente");
+                        try {
+                            ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
+                        } catch (IOException e) {
+                            log.severe(e.getMessage());
+                        }
+                        break;
+                    }
+                }
+            }
+        }).start();
+    }
+
+    //Este metodo elimina un paquete en su arraylist correspondiente
+    public void eliminarPaquete(PaqueteTuristico paquet) throws IOException {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(PaqueteTuristico paquete : paquetes) {
+                    if(paquete.getNombre().equals(paquet.getNombre())) {
                         paquetes.remove(paquete);
                         try {
                             ArchivoUtils.serializarObjeto(RUTAPAQUETES, paquetes);
                             JOptionPane.showMessageDialog(null, "Paquete eliminado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                            log.info("Paquete '" + nombre + "' eliminado correctamente");
+                            log.info("Paquete '" +paquet.getNombre() +"' eliminado correctamente");
                         } catch (IOException e) {
                             log.severe(e.getMessage());
                         }
@@ -387,16 +408,16 @@ public class AgenciaUQ {
     public void crearReserva (LocalDate fechaSolicitud, LocalDate fechaViaje, String idCliente, short numPersonas, PaqueteTuristico paqueteTuristico, Cliente cliente, GuiaTuristico guia, EstadoReserva estado) throws AtributoVacioException, FechaNoValidaException, CupoInvalidoException, IOException {
 
         if(fechaSolicitud.isAfter(fechaViaje)){
-            LOGGER.log( Level.WARNING, "La fecha de solicitud no puede ser después de la fecha de viaje" );
+            log.log( Level.WARNING, "La fecha de solicitud no puede ser después de la fecha de viaje" );
             throw new FechaNoValidaException("La fecha de sloicitud no puede ser después de la fecha de viaje");
         }
 
         if(idCliente == null || idCliente.isBlank()){
-            LOGGER.log( Level.WARNING, "La referencia es obligatoria para el registro" );
+            log.log( Level.WARNING, "La referencia es obligatoria para el registro" );
             throw new AtributoVacioException("La referencia es obligatoria");
         }
         if(!idCliente.matches("[0-9]+")){
-            LOGGER.log( Level.WARNING, "La referencia no puede ser numérica" );
+            log.log( Level.WARNING, "La referencia no puede ser numérica" );
             throw new AtributoVacioException("La referencia no puede ser numérica");
         }
 
@@ -415,7 +436,7 @@ public class AgenciaUQ {
         ArchivoUtils.escribirArchivoFormatter("src/main/resources/Data/reservas.data", null);
 
         ArchivoUtils.mostrarMensaje("Informe", "", "Se ha agregado la reserva correctamente", Alert.AlertType.INFORMATION);
-        LOGGER.log(Level.INFO, "Se ha registrado una nueva reserva del cliente: "+cliente);
+        log.log(Level.INFO, "Se ha registrado una nueva reserva del cliente: "+cliente);
     }
 
     public static ArrayList<String> leerNombresPaquetesTuristicos() throws IOException {
@@ -479,7 +500,7 @@ public class AgenciaUQ {
     public void modificarUsuario(String cedula, String nuevoNombre, String nuevoCorreo, String nuevoTelefono, String nuevaDireccion, String nuevaContraseña) throws IOException, ErrorGuardarCambios, ClassNotFoundException {
 
         // Obtener la lista actualizada de clientes
-        ArrayList<Cliente> listaClientes = (ArrayList<Cliente>) ArchivoUtils.deserializarObjeto("src/main/resources/Data/users.data");
+        ArrayList<Cliente> listaClientes = (ArrayList<Cliente>) ArchivoUtils.deserializarObjeto(RUTAUSERS);
         Optional<Cliente> clienteOptional = listaClientes.stream()
                 .filter(cliente -> cliente.getCedula().equals(cedula))
                 .findFirst();
@@ -497,7 +518,7 @@ public class AgenciaUQ {
             // Guardar la lista actualizada de clientes
             ArchivoUtils.escribirArchivoFormatter("src/main/resources/Data/users.data", null);
             ArchivoUtils.mostrarMensaje("Informe", "", "Se ha modificado el usuario correctamente", Alert.AlertType.INFORMATION);
-            LOGGER.log(Level.INFO, "Se ha modificado el usuario con cédula: " + cedula);
+            log.log(Level.INFO, "Se ha modificado el usuario con cédula: " + cedula);
 
         } else {
             ArchivoUtils.mostrarMensaje("Error", "Cliente no encontrado", "No se encontró ningún cliente con la cédula proporcionada.", Alert.AlertType.ERROR);

@@ -79,6 +79,7 @@ public class PaquetesController implements Initializable {
         }
     }
 
+    /*
     public void añadirPaquete() {
         try {
             if(destinoSeleccionado != null) {
@@ -94,6 +95,7 @@ public class PaquetesController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    */
 
     public void mostrarGestionar() {
         try {
@@ -104,6 +106,7 @@ public class PaquetesController implements Initializable {
         }
     }
 
+    /*
     public void actualizarPaquete() {
         try {
             if(paqueteSeleccionado != null) {
@@ -115,7 +118,9 @@ public class PaquetesController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    */
 
+    /*
     public void eliminarPaquete() {
         try {
             if(paqueteSeleccionado != null) {
@@ -127,4 +132,5 @@ public class PaquetesController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    */
 }

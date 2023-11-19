@@ -64,6 +64,8 @@ public class DestinosController implements Initializable {
         }
     }
 
+
+    /*
     public void agregarDestino() {
         try{
             agenciaUQ.agregarDestino(
@@ -80,7 +82,9 @@ public class DestinosController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    */
 
+    /*
     public void eliminarDestino() {
         if(destinoSeleccionado != null) {
             agenciaUQ.eliminarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
@@ -88,7 +92,9 @@ public class DestinosController implements Initializable {
             destinoSeleccionado = null;
         }
     }
+    */
 
+    /*
     public void actualizarDestino() {
         if(destinoSeleccionado != null) {
             agenciaUQ.actualizarDestino(destinoSeleccionado.getPais(), destinoSeleccionado.getCiudad());
@@ -96,6 +102,7 @@ public class DestinosController implements Initializable {
             destinoSeleccionado = null;
         }
     }
+    */
 
     public void seleccionarImagen(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
